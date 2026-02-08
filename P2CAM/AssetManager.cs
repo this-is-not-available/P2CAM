@@ -230,9 +230,18 @@ namespace P2CAM
             }
         }
 
+        // Creates a new asset based on the provided information
+        // Throws an Exception if it fails
         public static void CreateAsset(AssetDefinition assetInfo, string fileDirectory, string imagePath, Stream destinationStream)
         {
-            // TODO: validate assetInfo
+            try
+            {
+                ValidateAssetDefinition(assetInfo);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
             var tempDir = Path.GetTempPath();
             while (Path.Exists(tempDir))
@@ -254,8 +263,7 @@ namespace P2CAM
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown creation error " + ex.Message);
-                return;
+                throw new Exception("Unknown creation error ", ex);
             }
 
             string tomlString = "";
@@ -265,8 +273,7 @@ namespace P2CAM
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error" + ex.Message);
-                return;
+                throw new Exception("Unknown error", ex);
             }
 
             try
@@ -277,8 +284,7 @@ namespace P2CAM
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Filesystem write error" + ex.Message);
-                return;
+                throw new Exception("Filesystem write error", ex);
             }
 
             try
@@ -287,10 +293,10 @@ namespace P2CAM
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Zip write error" + ex.Message);
-                return;
+                throw new Exception("Zip write error", ex);
             }
 
+            // TODO if an exception occurs, the tempDir will still exist on disk
             Directory.Delete(tempDir, true);
         }
 

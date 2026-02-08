@@ -56,6 +56,14 @@ namespace P2CAM
             ApplicationConfiguration.Initialize();
 
             options.Load();
+            if (string.IsNullOrWhiteSpace(options.Portal2_Dir))
+            {
+                options.Portal2_Dir = SteamUtils.FindPortal2Directory();
+                if (options.Portal2_Dir == null)
+                {
+                    MessageBox.Show("Portal 2 directory not automatically found!");
+                }
+            }
 
             AssetBrowser window = new AssetBrowser();
             window.Init();

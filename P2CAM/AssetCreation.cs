@@ -90,7 +90,19 @@ namespace P2CAM
                     }
 
                     FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write);
-                    AssetManager.CreateAsset(assetInfo, selectedFolder!, selectedImage!, fileStream);
+                    try
+                    {
+                        AssetManager.CreateAsset(assetInfo, selectedFolder!, selectedImage!, fileStream);
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show(exception.Message, "Asset creation error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        // this way the window doesn't close
+                        fileStream.Close();
+                        return;
+                    }
+
                     fileStream.Close();
                     this.Close();
                 }
@@ -218,6 +230,7 @@ namespace P2CAM
         {
             if (Program.options.Portal2_Dir == null)
             {
+                MessageBox.Show("Portal 2 directory not found. This shouldn't happen");
                 return;
             }
 

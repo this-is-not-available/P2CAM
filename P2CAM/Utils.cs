@@ -61,6 +61,7 @@ namespace P2CAM
 
         public static string? FindPortal2Directory()
         {
+            // TODO: Add cross-platform default Steam locations
             // 1. Check default Steam location (C:\Program Files (x86)\Steam\steamapps\common\Portal 2)
             string defaultPath = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
@@ -68,6 +69,7 @@ namespace P2CAM
             if (ValidatePortal2Directory(defaultPath))
                 return defaultPath;
 
+            // TODO: Add cross-platform default Steam locations
             // 2. Parse libraryfolders.vdf for all "path" entries
             string vdfPath = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
@@ -82,7 +84,6 @@ namespace P2CAM
                 }
             }
 
-            MessageBox.Show("No Portal 2 install automatically found!");
             return null;
         }
 
