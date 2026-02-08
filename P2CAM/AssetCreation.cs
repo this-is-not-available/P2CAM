@@ -25,33 +25,43 @@ namespace P2CAM
 
         private void BtnCreateAsset_Click(object sender, EventArgs e)
         {
-            if (AssetNameBox.Text.Length == 0)
+            string[] tags = AssetTagsBox.Text.Split(',');
+            int i = 0;
+            foreach (string tag in tags)
             {
-                MessageBox.Show("The asset must have a valid name!", "Invalid asset", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                tag.Trim();
+                tags[i] = tag;
+                i++;
+            }
+
+            AssetDefinition assetInfo = new AssetDefinition();
+            assetInfo.Name = AssetNameBox.Text;
+            assetInfo.Description = DescriptionBox.Text;
+            assetInfo.Version = VersionBox.Text;
+            assetInfo.Source = AssetSourceBox.Text;
+            assetInfo.Author = AuthorName.Text;
+            assetInfo.Tags = tags;
+            assetInfo.Credit = (CreditType)CreditDropdown.SelectedIndex;
+
+            if (selectedImage != null & string.IsNullOrEmpty(selectedImage) & File.Exists(selectedImage))
+            {
+                MessageBox.Show("The asset must have a thumbnail image selected!", "Invalid asset", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (AuthorName.Text.Length == 0)
-            {
-                MessageBox.Show("The asset must have a valid author!", "Invalid asset", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (VersionBox.Text.Length == 0 || VersionBox.Text.StartsWith('.') || VersionBox.Text.EndsWith('.'))
-            {
-                MessageBox.Show("The asset must have a valid version!\n(e.g. 1.0.1, 1.5, 2.3.16)", "Invalid asset", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(selectedFolder))
+            if (selectedFolder != null & string.IsNullOrEmpty(selectedFolder) & Path.Exists(selectedFolder))
             {
                 MessageBox.Show("The asset must have a content root selected!", "Invalid asset", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (string.IsNullOrEmpty(selectedImage))
+            try
             {
-                MessageBox.Show("The asset must have a thumbnail image selected!", "Invalid asset", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AssetManager.ValidateAssetDefinition(assetInfo);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Invalid asset", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -73,24 +83,6 @@ namespace P2CAM
                 {
                     string savePath = sfd.FileName;
 
-                    string[] tags = AssetTagsBox.Text.Split(',');
-                    int i = 0;
-                    foreach (string tag in tags)
-                    {
-                        tag.Trim();
-                        tags[i] = tag;
-                        i++;
-                    }
-
-                    AssetDefinition assetInfo = new AssetDefinition();
-                    assetInfo.Name = AssetNameBox.Text;
-                    assetInfo.Description = DescriptionBox.Text;
-                    assetInfo.Version = VersionBox.Text;
-                    assetInfo.Source = AssetSourceBox.Text;
-                    assetInfo.Author = AuthorName.Text;
-                    assetInfo.Tags = tags;
-                    assetInfo.Credit = (CreditType)CreditDropdown.SelectedIndex;
-
                     if (!Directory.Exists(Path.GetDirectoryName(savePath)))
                     {
                         MessageBox.Show("This folder for this path doesn't exist!");
@@ -98,7 +90,8 @@ namespace P2CAM
                     }
 
                     FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write);
-                    AssetManager.CreateAsset(assetInfo, savePath, selectedImage, fileStream);
+                    AssetManager.CreateAsset(assetInfo, selectedFolder!, selectedImage!, fileStream);
+                    fileStream.Close();
                     this.Close();
                 }
 

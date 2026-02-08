@@ -210,6 +210,26 @@ namespace P2CAM
             Assets.Remove(asset);
         }
 
+        // Validates the given AssetDefinition
+        // Throws an Exception if it is not valid
+        public static void ValidateAssetDefinition(AssetDefinition assetInfo)
+        {
+            if (assetInfo.Name.Length == 0)
+            {
+                throw new Exception("The asset must have a valid name!");
+            }
+
+            if (assetInfo.Author.Length == 0)
+            {
+                throw new Exception("The asset must have a valid author!");
+            }
+
+            if (assetInfo.Version.Length == 0 || assetInfo.Version.StartsWith('.') || assetInfo.Version.EndsWith('.'))
+            {
+                throw new Exception("The asset must have a valid version!\n(e.g. 1.0.1, 1.5, 2.3.16)");
+            }
+        }
+
         public static void CreateAsset(AssetDefinition assetInfo, string fileDirectory, string imagePath, Stream destinationStream)
         {
             // TODO: validate assetInfo
