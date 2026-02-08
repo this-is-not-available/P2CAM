@@ -72,32 +72,6 @@ namespace P2CAM
                 if (result == DialogResult.OK)
                 {
                     string savePath = sfd.FileName;
-                    if (!Directory.Exists(Path.GetDirectoryName(savePath)))
-                    {
-                        MessageBox.Show("This folder for this path doesn't exist!");
-                        return;
-                    }
-
-                    var tempDir = Path.GetTempPath();
-                    while (Path.Exists(tempDir))
-                    {
-                        tempDir = Path.GetTempPath() + Guid.NewGuid().ToString("n");
-                    }
-
-                    StreamWriter defWriter;
-
-                    try
-                    {
-                        Directory.CreateDirectory(tempDir);
-                        Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(selectedFolder, tempDir);
-                        File.Copy(selectedImage, Path.Combine(tempDir, Path.GetFileName(selectedImage)));
-                        defWriter = File.CreateText(Path.Combine(tempDir, "def.toml"));
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Unknown creation error " + ex.Message);
-                        return;
-                    }
 
                     string[] tags = AssetTagsBox.Text.Split(',');
                     int i = 0;
@@ -111,51 +85,20 @@ namespace P2CAM
                     AssetDefinition assetInfo = new AssetDefinition();
                     assetInfo.Name = AssetNameBox.Text;
                     assetInfo.Description = DescriptionBox.Text;
-                    assetInfo.RelativeImagePath = Path.GetFileName(selectedImage);
                     assetInfo.Version = VersionBox.Text;
                     assetInfo.Source = AssetSourceBox.Text;
                     assetInfo.Author = AuthorName.Text;
                     assetInfo.Tags = tags;
                     assetInfo.Credit = (CreditType)CreditDropdown.SelectedIndex;
 
-                    string tomlString = "";
-                    try
+                    if (!Directory.Exists(Path.GetDirectoryName(savePath)))
                     {
-                        tomlString = Toml.FromModel(assetInfo);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Unknown error" + ex.Message);
+                        MessageBox.Show("This folder for this path doesn't exist!");
                         return;
                     }
 
-                    try
-                    {
-                        defWriter.Write(tomlString);
-                        defWriter.Flush();
-                        defWriter.Close();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Filesystem write error" + ex.Message);
-                        return;
-                    }
-
-                    try
-                    {
-                        if (File.Exists(savePath))
-                        {
-                            File.Delete(savePath);
-                        }
-                        ZipFile.CreateFromDirectory(tempDir, savePath);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Zip write error" + ex.Message);
-                        return;
-                    }
-
-                    Directory.Delete(tempDir, true);
+                    FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write);
+                    AssetManager.CreateAsset(assetInfo, savePath, selectedImage, fileStream);
                     this.Close();
                 }
 

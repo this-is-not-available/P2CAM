@@ -1,7 +1,9 @@
 using Microsoft.VisualBasic.FileIO;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO.Compression;
 using System.Text;
+using Tomlyn;
 
 namespace P2CAM
 {
@@ -206,6 +208,70 @@ namespace P2CAM
             FileSystem.DeleteDirectory(asset.FilePath, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
 
             Assets.Remove(asset);
+        }
+
+        public static void CreateAsset(AssetDefinition assetInfo, string fileDirectory, string imagePath, Stream destinationStream)
+        {
+            // TODO: validate assetInfo
+
+            var tempDir = Path.GetTempPath();
+            while (Path.Exists(tempDir))
+            {
+                tempDir = Path.GetTempPath() + Guid.NewGuid().ToString("n");
+            }
+
+            // This works because we always place the image in the root of the .p2asset file
+            assetInfo.RelativeImagePath = Path.GetFileName(imagePath);
+
+            StreamWriter definitionWriter;
+
+            try
+            {
+                Directory.CreateDirectory(tempDir);
+                Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(fileDirectory, tempDir);
+                File.Copy(imagePath, Path.Combine(tempDir, Path.GetFileName(imagePath)));
+                definitionWriter = File.CreateText(Path.Combine(tempDir, "def.toml"));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown creation error " + ex.Message);
+                return;
+            }
+
+            string tomlString = "";
+            try
+            {
+                tomlString = Toml.FromModel(assetInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error" + ex.Message);
+                return;
+            }
+
+            try
+            {
+                definitionWriter.Write(tomlString);
+                definitionWriter.Flush();
+                definitionWriter.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Filesystem write error" + ex.Message);
+                return;
+            }
+
+            try
+            {
+                ZipFile.CreateFromDirectory(tempDir, destinationStream);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Zip write error" + ex.Message);
+                return;
+            }
+
+            Directory.Delete(tempDir, true);
         }
 
         public void Clear()
