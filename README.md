@@ -20,6 +20,8 @@ Anyone that wants to contribute to this project is free to do so!
 
 ## Planned features
 
+* Cross-platform support
+    * Self-explanatory, requires separating core functionality and UI code as well as adopting a cross-platform GUI liblary
 * Search
     * Would let you search tags, description, title and asset type in the asset browser for quick retrieval
 * Asset preview
