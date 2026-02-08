@@ -124,6 +124,7 @@ namespace P2CAM
 
         private bool _InstallAsset(string assetFilePath)
         {
+            // TODO: better error reporting all around this function
             string? Portal2Dir = Program.options.Portal2_Dir;
             if (Portal2Dir == null)
             {
@@ -175,7 +176,12 @@ namespace P2CAM
                 return false;
             }
 
-            AssetBrowser.MountAssets(customDir);
+            // TODO: prefabs and instance installation support
+            // Move the instances subfolder to sdk_content/maps/instances
+            // Move the prefabs subfolder to bin/Prefabs
+
+            // TODO: error handling
+            MountHandler.AddCustomSearchPathsToGameInfo(Program.options.Portal2_Dir!, customDir);
 
             Debug.WriteLine($"Installed asset to: {assetFolder}");
             return true;
@@ -191,6 +197,7 @@ namespace P2CAM
 
         public void UninstallAsset(string id)
         {
+            // TODO: better error reporting all around this function
             Asset? asset = Assets.FirstOrDefault(asset => asset.Id == id);
             if (asset == null)
             {
@@ -299,10 +306,11 @@ namespace P2CAM
                 throw new Exception("Zip write error", ex);
             }
 
-            // TODO if an exception occurs, the tempDir will still exist on disk
+            // TODO: if an exception occurs, the tempDir will still exist on disk
             Directory.Delete(tempDir, true);
         }
 
+        // TODO: should this be called somewhere or should it be deleted?
         public void Clear()
         {
             Assets.Clear();

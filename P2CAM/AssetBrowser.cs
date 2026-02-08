@@ -170,11 +170,6 @@ namespace P2CAM
             assetList.Add(groupBox);
         }
 
-        public static void MountAssets(string customFolder)
-        {
-            MountHandler.AddCustomSearchPathsToGameInfo(Program.options.Portal2_Dir!, customFolder);
-        }
-
         public void SetProgressBar(int progress, string currentTask)
         {
             statusStrip.Visible = (progress is >= 100 or <= 0) ? true : false;
@@ -238,6 +233,7 @@ namespace P2CAM
 
         private void RefreshAssetUI()
         {
+            // TODO: is this logic correct?
             int progress = 0;
 
             assetList.ForEach(asset =>
@@ -261,7 +257,8 @@ namespace P2CAM
                 SelectAsset(assetManager.Assets[0]);
 
                 string customFolder = Path.Combine(Program.options.Portal2_Dir!, "portal2", "custom");
-                MountAssets(customFolder);
+                // TODO: error handling
+                MountHandler.AddCustomSearchPathsToGameInfo(Program.options.Portal2_Dir!, customFolder);
             }
             else
             {
