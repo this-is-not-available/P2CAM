@@ -47,7 +47,7 @@ namespace P2CAM
     {
         public Asset()
         {
-            FilePath = "C:/";
+            FilePath = "";
             Id = Guid.NewGuid().ToString();
         }
 
@@ -75,7 +75,10 @@ namespace P2CAM
             if (!Directory.Exists(customFolder))
             {
                 Debug.WriteLine("No custom folder");
-                return;
+                //return;
+
+                // TODO: keep this?
+                Directory.CreateDirectory(customFolder);
             }
 
             // Find all asset directories containing def.toml
