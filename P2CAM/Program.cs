@@ -10,6 +10,11 @@ namespace P2CAM
 
         private bool loadFailed = false;
 
+        public Options()
+        {
+            Portal2_Dir = null;
+        }
+
         public void Save()
         {
             if (loadFailed)
@@ -25,6 +30,14 @@ namespace P2CAM
         }
         public void Load()
         {
+            if (!File.Exists("appsettings.toml"))
+            {
+                // No settings found, generate stock settings and save
+                Program.options = new Options();
+                Save();
+                return;
+            }
+
             // Read appsettings.toml from root of solution
             try
             {

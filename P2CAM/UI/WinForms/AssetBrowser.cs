@@ -34,7 +34,7 @@ namespace P2CAM.UI.WinForms
 
             if (string.IsNullOrWhiteSpace(Program.options.Portal2_Dir))
             {
-                //Program.options.Portal2_Dir = SteamUtils.FindPortal2Directory();
+                Program.options.Portal2_Dir = SteamUtils.FindPortal2Directory();
                 if (Program.options.Portal2_Dir == null)
                 {
                     Program.options.Portal2_Dir = AskForPortal2Folder();
