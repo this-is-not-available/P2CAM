@@ -1,3 +1,4 @@
+using P2CAM.Core;
 using System.Security.Principal;
 using Tomlyn;
 
@@ -65,7 +66,8 @@ namespace P2CAM
                 }
             }
 
-            AssetBrowser window = new AssetBrowser();
+
+            UI.WinForms.AssetBrowser window = new UI.WinForms.AssetBrowser();
             window.Init();
             if (!window.IsDisposed)
             {

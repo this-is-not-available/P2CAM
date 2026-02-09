@@ -1,7 +1,9 @@
 using System.Windows.Forms;
 using System;
 using Image = System.Drawing.Image;
-namespace P2CAM
+using P2CAM.Core;
+
+namespace P2CAM.UI.WinForms
 {
     public partial class AssetBrowser : Form
     {

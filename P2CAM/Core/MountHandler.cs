@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace P2CAM
+namespace P2CAM.Core
 {
     public static class MountHandler
     {

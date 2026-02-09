@@ -1,11 +1,12 @@
-﻿using System;
+﻿using P2CAM.Core;
+using System;
 using System.Data;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Runtime.InteropServices;
 using Tomlyn;
 
-namespace P2CAM
+namespace P2CAM.UI.WinForms
 {
     public partial class AssetCreation : Form
     {

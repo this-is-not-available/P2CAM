@@ -4,7 +4,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
 
-namespace P2CAM
+namespace P2CAM.Core
 {
     public static class ImageUtils
     {

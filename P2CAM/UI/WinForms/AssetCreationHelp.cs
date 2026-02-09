@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace P2CAM
+namespace P2CAM.UI.WinForms
 {
     public partial class AssetCreationHelp : Form
     {

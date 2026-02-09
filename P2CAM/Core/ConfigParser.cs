@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Tomlyn;
 
-namespace P2CAM
+namespace P2CAM.Core
 {
     public class ConfigParser
     {

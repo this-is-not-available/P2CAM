@@ -1,4 +1,4 @@
-﻿namespace P2CAM
+﻿namespace P2CAM.UI.WinForms
 {
     partial class AssetCreationHelp
     {

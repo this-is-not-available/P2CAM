@@ -5,7 +5,7 @@ using System.IO.Compression;
 using System.Text;
 using Tomlyn;
 
-namespace P2CAM
+namespace P2CAM.Core
 {
     public enum CreditType
     {
@@ -267,7 +267,7 @@ namespace P2CAM
             try
             {
                 Directory.CreateDirectory(tempDir);
-                Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(fileDirectory, tempDir);
+                FileSystem.CopyDirectory(fileDirectory, tempDir);
                 File.Copy(imagePath, Path.Combine(tempDir, Path.GetFileName(imagePath)));
                 definitionWriter = File.CreateText(Path.Combine(tempDir, "def.toml"));
             }
