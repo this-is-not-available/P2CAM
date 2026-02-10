@@ -1,0 +1,38 @@
+name: Build Application
+
+on:
+  release:
+    types: [created]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    - name: Build Application
+      run: dotnet publish -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true -o ./publish-out
+
+    - name: Rename executable with version
+      run: |
+        mkdir dist
+        copy ./publish-out/P2CAM.exe dist/P2CAM-${{ github.ref_name }}-win-x64.exe
+
+    - name: Upload to release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          dist/P2CAM-${{ github.ref_name }}-win-x64.exe
