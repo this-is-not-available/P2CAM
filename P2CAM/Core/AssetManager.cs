@@ -215,6 +215,7 @@ namespace P2CAM.Core
             MountHandler.RemoveCustomSearchPathFromGameinfo(Portal2Dir, customDir, asset.FilePath);
 
             Debug.WriteLine($"Deleting directory {asset.FilePath}");
+            // TODO: is this cross-platform?
             FileSystem.DeleteDirectory(asset.FilePath, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
 
             Assets.Remove(asset);
