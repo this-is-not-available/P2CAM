@@ -225,7 +225,6 @@ namespace P2CAM.Core
         // Throws an Exception if it is not valid
         public static void ValidateAssetDefinition(AssetDefinition assetInfo)
         {
-            return;
             if (assetInfo.Name.Length == 0)
             {
                 throw new Exception("The asset must have a valid name!");
