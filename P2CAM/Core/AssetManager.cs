@@ -9,9 +9,9 @@ namespace P2CAM.Core
 {
     public enum CreditType
     {
-        Required,
-        Optional,
         NotRequired,
+        Optional,
+        Required,
         Unknown
     }
 

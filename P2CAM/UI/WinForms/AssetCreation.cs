@@ -27,12 +27,10 @@ namespace P2CAM.UI.WinForms
         private void BtnCreateAsset_Click(object sender, EventArgs e)
         {
             string[] tags = AssetTagsBox.Text.Split(',');
-            int i = 0;
-            foreach (string tag in tags)
+
+            for (int i = 0; i < tags.Length; i++)
             {
-                tag.Trim();
-                tags[i] = tag;
-                i++;
+                tags[i] = tags[i].Trim();
             }
 
             AssetDefinition assetInfo = new AssetDefinition();
@@ -42,6 +40,7 @@ namespace P2CAM.UI.WinForms
             assetInfo.Source = AssetSourceBox.Text;
             assetInfo.Author = AuthorName.Text;
             assetInfo.Tags = tags;
+            // TODO: this assumes same order as defined in AssetManager.cs
             assetInfo.Credit = (CreditType)CreditDropdown.SelectedIndex;
 
             if (selectedImage != null & string.IsNullOrEmpty(selectedImage) & File.Exists(selectedImage))
