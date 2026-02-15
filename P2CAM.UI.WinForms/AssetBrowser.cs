@@ -7,12 +7,13 @@ namespace P2CAM.UI.WinForms
 {
     public partial class AssetBrowser : Form
     {
-        private AssetManager assetManager = new AssetManager();
+        private AssetManager assetManager;
         private List<GroupBox> assetList = new List<GroupBox>();
         private static string? SelectedAssetId { get; set; } = null;
 
-        public AssetBrowser()
+        public AssetBrowser(AssetManager _assetManager)
         {
+            assetManager = _assetManager;
             InitializeComponent();
             assetList = new List<GroupBox>();
         }
@@ -67,7 +68,7 @@ namespace P2CAM.UI.WinForms
             {
                 try
                 {
-                    SelectedAssetImage.Image = ImageUtils.ResizeImage(Image.FromFile(imagePath), SelectedAssetImage.Width, SelectedAssetImage.Height);
+                    SelectedAssetImage.Image = ImageResizer.ResizeImage(Image.FromFile(imagePath), SelectedAssetImage.Width, SelectedAssetImage.Height);
                 }
                 catch (Exception ex)
                 {
@@ -141,7 +142,7 @@ namespace P2CAM.UI.WinForms
             Image? image = null;
             if (File.Exists(imagePath))
             {
-                image = ImageUtils.ResizeImage(Image.FromFile(imagePath), 270, 140);
+                image = ImageResizer.ResizeImage(Image.FromFile(imagePath), 270, 140);
             }
             else
             {
@@ -335,7 +336,7 @@ namespace P2CAM.UI.WinForms
 
         private void AssetBrowser_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Program.options.Save();
+            Program.optionsLoader.Save();
         }
     }
 }

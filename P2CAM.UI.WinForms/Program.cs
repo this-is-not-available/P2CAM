@@ -4,15 +4,14 @@ using Tomlyn;
 
 namespace P2CAM
 {
-    public class Options
+    public class OptionsLoader
     {
-        public string? Portal2_Dir { get; set; } = null;
-
         private bool loadFailed = false;
+        public Options options = new Options();
 
-        public Options()
+        public OptionsLoader()
         {
-            Portal2_Dir = null;
+            loadFailed = false;
         }
 
         public void Save()
@@ -33,7 +32,7 @@ namespace P2CAM
             if (!File.Exists("appsettings.toml"))
             {
                 // No settings found, generate stock settings and save
-                Program.options = new Options();
+                options = new Options();
                 Save();
                 return;
             }
@@ -43,7 +42,7 @@ namespace P2CAM
             {
                 var optionsText = File.ReadAllText("appsettings.toml");
                 var modelOptions = new TomlModelOptions { IgnoreMissingProperties = true };
-                Program.options = Toml.Parse(optionsText).ToModel<Options>(modelOptions);
+                options = Toml.Parse(optionsText).ToModel<Options>(modelOptions);
             }
             catch (Exception e)
             {
@@ -56,7 +55,9 @@ namespace P2CAM
 
     public class Program
     {
-        public static Options options = new Options();
+        public static OptionsLoader optionsLoader = new OptionsLoader();
+        public static Options options = optionsLoader.options;
+        public static AssetManager assetManager = new AssetManager(options);
 
         /// <summary>
         ///  The main entry point for the application.
@@ -69,7 +70,7 @@ namespace P2CAM
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            options.Load();
+            optionsLoader.Load();
             if (string.IsNullOrWhiteSpace(options.Portal2_Dir))
             {
                 options.Portal2_Dir = SteamUtils.FindPortal2Directory();
@@ -79,8 +80,7 @@ namespace P2CAM
                 }
             }
 
-
-            UI.WinForms.AssetBrowser window = new UI.WinForms.AssetBrowser();
+            UI.WinForms.AssetBrowser window = new UI.WinForms.AssetBrowser(assetManager);
             window.Init();
             if (!window.IsDisposed)
             {

@@ -59,11 +59,17 @@ namespace P2CAM.Core
     {
         public bool InstallationInProgress = false;
         public List<Asset> Assets { get; } = new();
+        public Options options { get; set; }
+
+        public AssetManager(Options _options)
+        {
+            options = _options;
+        }
 
         public void LoadAssetsInInstallation()
         {
             Assets.Clear();
-            string? installDirectory = Program.options.Portal2_Dir;
+            string? installDirectory = options.Portal2_Dir;
             if (installDirectory == null)
             {
                 Debug.WriteLine("No Portal 2 install found!");
@@ -125,7 +131,7 @@ namespace P2CAM.Core
         private bool _InstallAsset(string assetFilePath)
         {
             // TODO: better error reporting all around this function
-            string? Portal2Dir = Program.options.Portal2_Dir;
+            string? Portal2Dir = options.Portal2_Dir;
             if (Portal2Dir == null)
             {
                 Debug.WriteLine("Portal 2 directory not found.");
@@ -181,7 +187,7 @@ namespace P2CAM.Core
             // Move the prefabs subfolder to bin/Prefabs
 
             // TODO: error handling
-            MountHandler.AddCustomSearchPathsToGameInfo(Program.options.Portal2_Dir!, customDir);
+            MountHandler.AddCustomSearchPathsToGameInfo(options.Portal2_Dir!, customDir);
 
             Debug.WriteLine($"Installed asset to: {assetFolder}");
             return true;
@@ -205,7 +211,7 @@ namespace P2CAM.Core
                 return;
             }
 
-            string? Portal2Dir = Program.options.Portal2_Dir;
+            string? Portal2Dir = options.Portal2_Dir;
             if (Portal2Dir == null)
             {
                 Debug.WriteLine("Portal 2 directory not found.");

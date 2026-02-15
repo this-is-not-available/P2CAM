@@ -355,7 +355,7 @@ namespace P2CAM.UI.WinForms
                     {
                         try
                         {
-                            AssetImage.Image = ImageUtils.ResizeImage(Image.FromFile(selectedImage), AssetImage.Width, AssetImage.Height);
+                            AssetImage.Image = ImageResizer.ResizeImage(Image.FromFile(selectedImage), AssetImage.Width, AssetImage.Height);
                         }
                         catch (Exception ex)
                         {
