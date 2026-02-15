@@ -24,12 +24,12 @@ jobs:
       run: dotnet restore
 
     - name: Build Application
-      run: dotnet publish -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true -o ./publish-out
+      run: dotnet publish P2CAM.UI.WinForms/P2CAM.UI.WinForms.csproj -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true -o ./publish-out
 
     - name: Rename executable with version
       run: |
         mkdir dist
-        copy ./publish-out/P2CAM.exe dist/P2CAM-${{ github.ref_name }}-win-x64.exe
+        copy ./publish-out/P2CAM.WinForms.exe dist/P2CAM-${{ github.ref_name }}-win-x64.exe
 
     - name: Upload to release
       uses: softprops/action-gh-release@v2

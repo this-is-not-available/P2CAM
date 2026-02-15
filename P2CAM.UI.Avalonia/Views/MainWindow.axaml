@@ -1,0 +1,75 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:P2CAM.UI.Avalonia.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="P2CAM.UI.Avalonia.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="P2CAM">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<Grid RowDefinitions="*, Auto" ColumnDefinitions="Auto, *">
+
+		<!-- 1. Top-Left: Big Image -->
+		<Image Grid.Row="0" Grid.Column="0"
+			   Source="{Binding SelectedImage}"
+			   Height="600"
+			   Margin="20"/>
+
+		<!-- 2. Top-Right: Details -->
+		<StackPanel Grid.Row="0" Grid.Column="1" Margin="20" VerticalAlignment="Top"
+					Height="600">
+			<TextBlock Text="{Binding SelectedName}" FontSize="24" FontWeight="Bold"/>
+			<ScrollViewer Height="500">
+				<TextBlock Text="{Binding SelectedDescription}" TextWrapping="Wrap"/>
+			</ScrollViewer>
+			<StackPanel Grid.Row="0" Grid.Column="1" Margin="20" VerticalAlignment="Bottom">
+				<TextBlock Text="{Binding SelectedAuthor}"/>
+				<TextBlock Text="{Binding SelectedCredit}"/>
+				<TextBlock Text="{Binding SelectedVersion}"/>
+			</StackPanel>
+		</StackPanel>
+
+		<!-- 3. Bottom: Horizontal Scroll Area -->
+		<!-- Grid.ColumnSpan="2" allows it to stretch across the whole bottom -->
+		<ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+					  HorizontalScrollBarVisibility="Auto"
+					  VerticalScrollBarVisibility="Disabled"
+					  Height="286" Margin="10">
+			<ItemsControl ItemsSource="{Binding Items}">
+				<!-- This tells the ItemsControl to lay out its items horizontally -->
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Orientation="Horizontal" />
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Border Margin="10" Padding="10" BorderBrush="Gray" BorderThickness="1" MaxHeight="266">
+							<StackPanel Orientation="Vertical" Spacing="10">
+								<Image Source="{Binding ImagePath}"
+										Width="392"
+										Height="216" />
+
+								<StackPanel>
+									<TextBlock Text="{Binding Title}"
+												FontWeight="Bold"
+												FontSize="16"/>
+								</StackPanel>
+							</StackPanel>
+						</Border>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+
+	</Grid>
+</Window>

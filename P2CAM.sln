@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2CAM.Core", "P2CAM.Core\P2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2CAM.UI.WinForms", "P2CAM.UI.WinForms\P2CAM.UI.WinForms.csproj", "{92B05E37-7C79-400F-81FB-B5305D05A070}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2CAM.UI.Avalonia", "P2CAM.UI.Avalonia\P2CAM.UI.Avalonia.csproj", "{2EE7517D-E15B-410D-A963-164617432096}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{92B05E37-7C79-400F-81FB-B5305D05A070}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92B05E37-7C79-400F-81FB-B5305D05A070}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92B05E37-7C79-400F-81FB-B5305D05A070}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EE7517D-E15B-410D-A963-164617432096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EE7517D-E15B-410D-A963-164617432096}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EE7517D-E15B-410D-A963-164617432096}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EE7517D-E15B-410D-A963-164617432096}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
