@@ -44,7 +44,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
                     SelectedCredit = ("Credit: " + asset.Credit).Replace("NotRequired", "Not Required"); ;
                     SelectedVersion = "Version: " + asset.Version;
 
-                    //SelectedImage.Dispose();
+                    SelectedImage.Dispose();
                     SelectedImage = new Bitmap(Path.Combine(asset.FilePath, asset.Image));
                 }
             }
