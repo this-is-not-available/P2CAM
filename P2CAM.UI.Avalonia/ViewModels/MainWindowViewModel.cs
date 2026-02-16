@@ -3,6 +3,7 @@ using P2CAM.Core;
 using P2CAM.UI.Avalonia.Models;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 
 namespace P2CAM.UI.Avalonia.ViewModels
 {
@@ -23,6 +24,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
         public MainWindowViewModel(AssetManager _assetManager)
         {
             assetManager = _assetManager;
+            assetManager.LoadAssetsInInstallation();
 
             // Temporary test data
 
@@ -36,12 +38,14 @@ namespace P2CAM.UI.Avalonia.ViewModels
             SelectedCredit = "Credit: Not required";
             SelectedVersion = "Version: 1.0.0";
 
-            for (int i = 0; i < 2; i++)
+            // Real data
+
+            foreach (Asset asset in assetManager.Assets)
             {
                 Items.Add(new DisplayItem
                 {
-                    Title = "Item " + (i + 1).ToString(),
-                    ImagePath = "avares://P2CAM.UI.Avalonia/Assets/avalonia-logo.png"
+                    Title = asset.Name,
+                    Image = new Bitmap(Path.Combine(asset.FilePath, asset.Image))
                 });
             }
         }

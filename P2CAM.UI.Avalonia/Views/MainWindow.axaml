@@ -55,7 +55,7 @@
 					<DataTemplate>
 						<Border Margin="10" Padding="10" BorderBrush="Gray" BorderThickness="1" MaxHeight="266">
 							<StackPanel Orientation="Vertical" Spacing="10">
-								<Image Source="{Binding ImagePath}"
+								<Image Source="{Binding Image}"
 										Width="392"
 										Height="216" />
 
