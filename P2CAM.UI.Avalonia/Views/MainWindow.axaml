@@ -20,7 +20,7 @@
 		<!-- 1. Top-Left: Big Image -->
 		<Image Grid.Row="0" Grid.Column="0"
 			   Source="{Binding SelectedImage}"
-			   Height="600"
+			   Height="600" MaxWidth="1200"
 			   Margin="20"/>
 
 		<!-- 2. Top-Right: Details -->
@@ -53,18 +53,20 @@
 
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Border Margin="10" Padding="10" BorderBrush="Gray" BorderThickness="1" MaxHeight="266">
-							<StackPanel Orientation="Vertical" Spacing="10">
-								<Image Source="{Binding Image}"
-										Width="392"
-										Height="216" />
+						<Border Margin="0" Padding="0" BorderBrush="Gray" BorderThickness="1" MaxHeight="266">
+							<Button Command="{Binding $parent[ItemsControl].DataContext.AssetClickHandler}" CommandParameter="{Binding Id}" Margin="0" Padding="10" Background="White">
+								<StackPanel Orientation="Vertical" Spacing="10">
+									<Image Source="{Binding Image}"
+											Width="392"
+											Height="216" />
 
-								<StackPanel>
-									<TextBlock Text="{Binding Title}"
-												FontWeight="Bold"
-												FontSize="16"/>
+									<StackPanel>
+										<TextBlock Text="{Binding Title}"
+													FontWeight="Bold"
+													FontSize="16"/>
+									</StackPanel>
 								</StackPanel>
-							</StackPanel>
+							</Button>
 						</Border>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>

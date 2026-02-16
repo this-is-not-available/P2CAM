@@ -1,4 +1,7 @@
-﻿using Avalonia.Media.Imaging;
+﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
+using CommunityToolkit.Mvvm.ComponentModel;
 using P2CAM.Core;
 using P2CAM.UI.Avalonia.Models;
 using System.Collections.ObjectModel;
@@ -9,17 +12,43 @@ namespace P2CAM.UI.Avalonia.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
-        public Bitmap SelectedImage { get; } = new Bitmap("G:/SteamLibrary/steamapps/common/Portal 2/portal2_dlc2/materials/puzzlemaker/palette/turret.png");
-        public string SelectedName { get; } = string.Empty;
-        public string SelectedDescription { get; } = string.Empty;
-        public string SelectedAuthor { get; } = string.Empty;
-        public string SelectedCredit { get; } = string.Empty;
-        public string SelectedVersion { get; } = string.Empty;
+        [ObservableProperty]
+        public Bitmap selectedImage = new Bitmap("G:/SteamLibrary/steamapps/common/Portal 2/portal2_dlc2/materials/puzzlemaker/palette/turret.png");
+        [ObservableProperty]
+        public string selectedName = string.Empty;
+        [ObservableProperty]
+        public string selectedDescription = string.Empty;
+        [ObservableProperty]
+        public string selectedAuthor = string.Empty;
+        [ObservableProperty]
+        public string selectedCredit = string.Empty;
+        [ObservableProperty]
+        public string selectedVersion = string.Empty;
 
         public ObservableCollection<DisplayItem> Items { get; }
             = new ObservableCollection<DisplayItem>();
 
         private AssetManager assetManager;
+
+        public void AssetClickHandler(string Id)
+        {
+            foreach (Asset asset in assetManager.Assets)
+            {
+                if (Id == asset.Id)
+                {
+                    Trace.WriteLine($"Asset {asset.Name}");
+
+                    SelectedName = asset.Name;
+                    SelectedDescription = asset.Description;
+                    SelectedAuthor = "Author: " + asset.Author;
+                    SelectedCredit = ("Credit: " + asset.Credit).Replace("NotRequired", "Not Required"); ;
+                    SelectedVersion = "Version: " + asset.Version;
+
+                    //SelectedImage.Dispose();
+                    SelectedImage = new Bitmap(Path.Combine(asset.FilePath, asset.Image));
+                }
+            }
+        }
 
         public MainWindowViewModel(AssetManager _assetManager)
         {
@@ -45,7 +74,8 @@ namespace P2CAM.UI.Avalonia.ViewModels
                 Items.Add(new DisplayItem
                 {
                     Title = asset.Name,
-                    Image = new Bitmap(Path.Combine(asset.FilePath, asset.Image))
+                    Image = new Bitmap(Path.Combine(asset.FilePath, asset.Image)),
+                    Id = asset.Id
                 });
             }
         }

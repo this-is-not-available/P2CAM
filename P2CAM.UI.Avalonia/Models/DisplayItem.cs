@@ -10,6 +10,7 @@ namespace P2CAM.UI.Avalonia.Models
     public class DisplayItem
     {
         public string Title { get; set; } = "";
+        public string Id { get; set; } = "";
         public Bitmap? Image { get; set; }
     }
 }
