@@ -57,6 +57,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
 
             // Temporary test data
 
+            // TODO: bad, bery bad
             SelectedImage = new Bitmap("G:/SteamLibrary/steamapps/common/Portal 2/portal2_dlc2/materials/puzzlemaker/palette/turret.png");
             SelectedName = "teh epic aset";
             for (int i = 0; i < 200; i++)
