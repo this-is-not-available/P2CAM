@@ -33,4 +33,10 @@
   <ItemGroup>
     <ProjectReference Include="..\P2CAM.Core\P2CAM.Core.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\OptionsWindow.axaml.cs">
+      <DependentUpon>OptionsWindow.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

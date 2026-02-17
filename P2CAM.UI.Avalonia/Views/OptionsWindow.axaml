@@ -1,0 +1,40 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:P2CAM.UI.Avalonia.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="P2CAM.UI.Avalonia.OptionsWindow"
+		x:DataType="vm:OptionsWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+		Width="500"
+		Height="400"
+        Title="Options">
+	
+	<DockPanel LastChildFill="True">
+		<Button DockPanel.Dock="Bottom" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5"
+				Command="{Binding Save}">
+			Save
+		</Button>
+
+		<ItemsControl ItemsSource="{Binding Options}">
+			<!-- This tells the ItemsControl to lay out its items vertically -->
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel Orientation="Vertical" />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Panel Margin="5" Height="32">
+						<DockPanel LastChildFill="True">
+							<TextBlock DockPanel.Dock="Left" Margin="2,0" VerticalAlignment="Center" Text="{Binding Name}"></TextBlock>
+							<TextBox DockPanel.Dock="Right" Margin="2,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Value}" />
+						</DockPanel>
+					</Panel>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</DockPanel>
+</Window>

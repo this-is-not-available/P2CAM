@@ -7,6 +7,8 @@
         x:Class="P2CAM.UI.Avalonia.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
+		MinWidth="800" MinHeight="600"
+		Width="1024" Height="660"
         Title="P2CAM">
 
     <Design.DataContext>
@@ -25,22 +27,24 @@
 			<Button Content="Options" Background="Transparent" Padding="5" Margin="5" Command="{Binding OpenOptionsHandler}"/>
 		</StackPanel>
 
-		<Grid RowDefinitions="*, Auto" ColumnDefinitions="Auto, *">
+		<Grid RowDefinitions="*, Auto" ColumnDefinitions="*, *">
 
 			<!-- 1. Top-Left: Big Image -->
 			<Image Grid.Row="0" Grid.Column="0"
 				   Source="{Binding SelectedImage}"
-				   Height="600" MaxWidth="1200"
 				   Margin="20"/>
 
 			<!-- 2. Top-Right: Details -->
-			<StackPanel Grid.Row="0" Grid.Column="1" Margin="20" VerticalAlignment="Top"
-						Height="600">
-				<TextBlock Text="{Binding SelectedName}" FontSize="24" FontWeight="Bold"/>
-				<ScrollViewer Height="450">
+			<Grid Grid.Row="0" Grid.Column="1" Margin="20" VerticalAlignment="Top"
+						RowDefinitions="Auto, *, Auto">
+				
+				<TextBlock Grid.Row="0" Text="{Binding SelectedName}" FontSize="24" FontWeight="Bold"/>
+
+				<ScrollViewer Grid.Row="1">
 					<TextBlock Text="{Binding SelectedDescription}" TextWrapping="Wrap"/>
 				</ScrollViewer>
-				<StackPanel Grid.Row="0" Grid.Column="1" Margin="10" VerticalAlignment="Bottom">
+				
+				<StackPanel Grid.Row="2" Grid.Column="1" Margin="10" VerticalAlignment="Bottom">
 					<TextBlock Text="{Binding SelectedAuthor}"/>
 					<TextBlock Text="{Binding SelectedCredit}"/>
 					<TextBlock Text="{Binding SelectedVersion}"/>
@@ -52,7 +56,7 @@
 						</Button>
 					</StackPanel>
 				</StackPanel>
-			</StackPanel>
+			</Grid>
 
 			<!-- 3. Bottom: Horizontal Scroll Area -->
 			<!-- Grid.ColumnSpan="2" allows it to stretch across the whole bottom -->
@@ -89,7 +93,6 @@
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 			</ScrollViewer>
-
 		</Grid>
 	</DockPanel>
 </Window>

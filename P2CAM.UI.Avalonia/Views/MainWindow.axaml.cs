@@ -10,9 +10,10 @@ namespace P2CAM.UI.Avalonia.Views
         public MainWindow()
         {
             InitializeComponent();
+            Trace.WriteLine($"{this.Width}x{this.Height}");
         }
 
-        public async void InstallAssetHandler(object sender, RoutedEventArgs e)
+        public void InstallAssetHandler(object sender, RoutedEventArgs e)
         {
             if (DataContext is MainWindowViewModel vm)
             {
