@@ -1,15 +1,22 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:P2CAM.UI.Avalonia.ViewModels"
+		xmlns:models="using:P2CAM.UI.Avalonia.Models"
+		xmlns:conv="using:P2CAM.UI.Avalonia.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="P2CAM.UI.Avalonia.OptionsWindow"
 		x:DataType="vm:OptionsWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-		Width="500"
+		Width="600"
 		Height="400"
         Title="Options">
+
+	<Window.Resources>
+		<!-- This creates an instance of your class that XAML can use -->
+		<conv:ObjectMultiConverter x:Key="ObjectMultiConverter"/>
+	</Window.Resources>
 	
 	<DockPanel LastChildFill="True">
 		<Button DockPanel.Dock="Bottom" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5"
@@ -25,16 +32,50 @@
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 
-			<ItemsControl.ItemTemplate>
+			<!--<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Panel Margin="5" Height="32">
-						<DockPanel LastChildFill="True">
-							<TextBlock DockPanel.Dock="Left" Margin="2,0" VerticalAlignment="Center" Text="{Binding Name}"></TextBlock>
-							<TextBox DockPanel.Dock="Right" Margin="2,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Value}" />
-						</DockPanel>
+					<Panel Margin="5" Height="26">
+						<Grid ColumnDefinitions="Auto, *, Auto">
+							<TextBlock Grid.Column="0" Margin="2,0" VerticalAlignment="Center" FontSize="14" Text="{Binding Name}"></TextBlock>
+							<TextBox Grid.Column="1" Margin="2,0" VerticalAlignment="Center" FontSize="14" HorizontalAlignment="Stretch" Text="{Binding Value}" />
+						</Grid>
 					</Panel>
 				</DataTemplate>
-			</ItemsControl.ItemTemplate>
+			</ItemsControl.ItemTemplate>-->
+
+			<ItemsControl.DataTemplates>
+
+				<!-- TEMPLATE A: For standard text entries -->
+				<DataTemplate DataType="models:TextOption">
+					<Panel Margin="5" Height="26">
+						<Grid ColumnDefinitions="Auto, *">
+							<TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center"/>
+							<TextBox Grid.Column="1" Text="{Binding Value}" VerticalAlignment="Center"/>
+						</Grid>
+					</Panel>
+				</DataTemplate>
+
+				<!-- TEMPLATE B: For paths (adds the browse button) -->
+				<DataTemplate DataType="models:PathOption">
+					<Panel Margin="5" Height="26">
+						<Grid ColumnDefinitions="Auto, *, Auto">
+							<TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center"/>
+							<TextBox Grid.Column="1" Text="{Binding Path}" VerticalAlignment="Center"/>
+							<Button Grid.Column="2" Content="..." Command="{Binding $parent[Window].((vm:OptionsWindowViewModel)DataContext).SelectPathCommand}" Margin="4,0">
+								<Button.CommandParameter>
+									<MultiBinding Converter="{StaticResource ObjectMultiConverter}">
+										<Binding />
+										<!-- This binds to the current PathOption object -->
+										<Binding Path="$parent[Window]"/>
+										<!-- This binds to the Window -->
+									</MultiBinding>
+								</Button.CommandParameter>
+							</Button>
+						</Grid>
+					</Panel>
+				</DataTemplate>
+
+			</ItemsControl.DataTemplates>
 		</ItemsControl>
 	</DockPanel>
 </Window>

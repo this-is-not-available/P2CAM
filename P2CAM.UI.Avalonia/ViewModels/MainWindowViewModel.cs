@@ -30,7 +30,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
         [ObservableProperty]
         public string selectedVersion = string.Empty;
         private string SelectedId = string.Empty;
-        private bool OptionsOpened = false;
+        private OptionsWindow? options;
 
         public ObservableCollection<DisplayItem> Items { get; }
             = new ObservableCollection<DisplayItem>();
@@ -148,23 +148,30 @@ namespace P2CAM.UI.Avalonia.ViewModels
             }
         }
 
-        // TODO: Implement
         public void OpenOptionsHandler()
         {
-            if (!OptionsOpened)
+            if (options == null)
             {
-                var vm = new OptionsWindowViewModel(assetManager);
-                var options = new OptionsWindow { DataContext = vm };
+                var vm = new OptionsWindowViewModel(assetManager,
+                () => // Invoked when user saves
+                {
+                    Refresh();
+                });
+                options = new OptionsWindow { DataContext = vm };
 
                 options.Show();
 
-                OptionsOpened = true;
-
                 options.Closed += (object? sender, EventArgs e) =>
                 {
-                    OptionsOpened = false;
+                    options = null;
                 };
             }
+        }
+
+        // TODO: Trigger
+        public void OnClosing()
+        {
+            options?.Close();
         }
         
         // TODO: Implement
