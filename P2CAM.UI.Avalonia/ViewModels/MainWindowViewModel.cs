@@ -1,13 +1,15 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
 using Avalonia.Metadata;
+using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
-using P2CAM.Core;
-using P2CAM.UI.Avalonia.Models;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
+using P2CAM.Core;
+using P2CAM.UI.Avalonia.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -18,7 +20,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
     public partial class MainWindowViewModel : ViewModelBase
     {
         [ObservableProperty]
-        public Bitmap selectedImage = new Bitmap("G:/SteamLibrary/steamapps/common/Portal 2/portal2_dlc2/materials/puzzlemaker/palette/turret.png");
+        public Bitmap selectedImage = new WriteableBitmap(new PixelSize(1, 1), new Vector(96, 96), PixelFormat.Bgra8888);
         [ObservableProperty]
         public string selectedName = string.Empty;
         [ObservableProperty]
@@ -69,8 +71,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
 
             // Unloaded selected asset
 
-            // TODO: bad, bery bad, we should not use this image on my hard drive
-            SelectedImage = new Bitmap("G:/SteamLibrary/steamapps/common/Portal 2/portal2_dlc2/materials/puzzlemaker/palette/turret.png");
+            SelectedImage = new WriteableBitmap(new PixelSize(1, 1), new Vector(96, 96), PixelFormat.Bgra8888);
             SelectedName = "unloaded";
             SelectedDescription += "unloaded";
             SelectedAuthor = "Author: unloaded";

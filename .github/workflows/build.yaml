@@ -20,9 +20,6 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Restore Dependencies
-      run: dotnet restore
-
     - name: Build Application
       run: dotnet publish P2CAM.UI.Avalonia/P2CAM.UI.Avalonia.csproj -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-out
 
