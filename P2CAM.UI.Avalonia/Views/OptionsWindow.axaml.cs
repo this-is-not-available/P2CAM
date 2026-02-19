@@ -7,8 +7,6 @@ namespace P2CAM.UI.Avalonia;
 
 public partial class OptionsWindow : Window
 {
-    public event EventHandler? SettingsSaved;
-
     public OptionsWindow()
     {
         InitializeComponent();

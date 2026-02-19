@@ -6,6 +6,7 @@ using Avalonia.Markup.Xaml;
 using P2CAM.Core;
 using P2CAM.UI.Avalonia.ViewModels;
 using P2CAM.UI.Avalonia.Views;
+using System;
 using System.Linq;
 
 namespace P2CAM.UI.Avalonia
@@ -13,6 +14,11 @@ namespace P2CAM.UI.Avalonia
     public partial class App : Application
     {
         private readonly AssetManager assetManager;
+
+        public App()
+        {
+            throw new NotImplementedException("This should never be called, this constructor only exists to silence a compiler warning");
+        }
 
         public App(AssetManager? _assetManager)
         {

@@ -168,10 +168,11 @@ namespace P2CAM.UI.Avalonia.ViewModels
             }
         }
 
-        // TODO: Trigger
-        public void OnClosing()
+        // Return true to allow closing
+        public bool OnClosing()
         {
             options?.Close();
+            return true;
         }
         
         // TODO: Implement

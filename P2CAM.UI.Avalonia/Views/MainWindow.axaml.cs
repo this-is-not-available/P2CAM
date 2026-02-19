@@ -7,10 +7,25 @@ namespace P2CAM.UI.Avalonia.Views
 {
     public partial class MainWindow : Window
     {
+        bool closing = false;
         public MainWindow()
         {
             InitializeComponent();
-            Trace.WriteLine($"{this.Width}x{this.Height}");
+            Closing += (s, e) => {
+                if (DataContext is MainWindowViewModel vm)
+                {
+                    if (closing) return;
+                    e.Cancel = true;
+
+                    Program.optionsLoader.Save();
+                    // Return true to allow closing, false to cancel
+                    if (vm.OnClosing())
+                    {
+                        closing = true;
+                        Close();
+                    }
+                }
+            };
         }
 
         public void InstallAssetHandler(object sender, RoutedEventArgs e)

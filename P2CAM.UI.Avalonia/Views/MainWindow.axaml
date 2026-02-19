@@ -23,7 +23,7 @@
 			<Button Content="Install" Background="Transparent" Padding="5" Margin="5" Click="InstallAssetHandler"/>
 			<Button Content="Refresh" Background="Transparent" Padding="5" Margin="5" Command="{Binding Refresh}"/>
 			<Separator Height="20" Width="3" Margin="5,0"/>
-			<Button Content="Create" Background="Transparent" Padding="5" Margin="5" Command="{Binding CreateHandler}"/>
+			<!-- <Button Content="Create" Background="Transparent" Padding="5" Margin="5" Command="{Binding CreateHandler}"/> -->
 			<Button Content="Options" Background="Transparent" Padding="5" Margin="5" Command="{Binding OpenOptionsHandler}"/>
 		</StackPanel>
 
