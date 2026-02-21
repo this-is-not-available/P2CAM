@@ -5,6 +5,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Metadata;
 using Avalonia.Platform;
 using Avalonia.Platform.Storage;
+using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
@@ -98,6 +99,16 @@ namespace P2CAM.UI.Avalonia.ViewModels
             }
         }
 
+        public void UpdateGlobalTheme()
+        {
+            Application.Current!.RequestedThemeVariant = (assetManager.options as AppOptions)!.AppTheme switch
+            {
+                Theme.Light => ThemeVariant.Light,
+                Theme.Dark => ThemeVariant.Dark,
+                _ => ThemeVariant.Default // Theme.System
+            };
+        }
+
         public async void InstallAsset(TopLevel topLevel)
         {
             var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
@@ -157,6 +168,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
                 () => // Invoked when user saves
                 {
                     Refresh();
+                    UpdateGlobalTheme();
                 });
                 options = new OptionsWindow { DataContext = vm };
 
@@ -186,6 +198,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
         {
             assetManager = _assetManager;
             Refresh();
+            UpdateGlobalTheme();
         }
     }
 }

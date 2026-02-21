@@ -14,7 +14,6 @@
         Title="Options">
 
 	<Window.Resources>
-		<!-- This creates an instance of your class that XAML can use -->
 		<conv:ObjectMultiConverter x:Key="ObjectMultiConverter"/>
 	</Window.Resources>
 	
@@ -32,24 +31,13 @@
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 
-			<!--<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<Panel Margin="5" Height="26">
-						<Grid ColumnDefinitions="Auto, *, Auto">
-							<TextBlock Grid.Column="0" Margin="2,0" VerticalAlignment="Center" FontSize="14" Text="{Binding Name}"></TextBlock>
-							<TextBox Grid.Column="1" Margin="2,0" VerticalAlignment="Center" FontSize="14" HorizontalAlignment="Stretch" Text="{Binding Value}" />
-						</Grid>
-					</Panel>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>-->
-
 			<ItemsControl.DataTemplates>
 
 				<!-- TEMPLATE A: For standard text entries -->
 				<DataTemplate DataType="models:TextOption">
-					<Panel Margin="5" Height="26">
+					<Panel Margin="10,5" Height="26">
 						<Grid ColumnDefinitions="Auto, *">
-							<TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center"/>
+							<TextBlock Grid.Column="0" Margin="5,0" Text="{Binding Name}" VerticalAlignment="Center"/>
 							<TextBox Grid.Column="1" Text="{Binding Value}" VerticalAlignment="Center"/>
 						</Grid>
 					</Panel>
@@ -57,20 +45,33 @@
 
 				<!-- TEMPLATE B: For paths (adds the browse button) -->
 				<DataTemplate DataType="models:PathOption">
-					<Panel Margin="5" Height="26">
+					<Panel Margin="10,5" Height="26">
 						<Grid ColumnDefinitions="Auto, *, Auto">
-							<TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center"/>
+							<TextBlock Grid.Column="0" Margin="5,0" Text="{Binding Name}" VerticalAlignment="Center"/>
 							<TextBox Grid.Column="1" Text="{Binding Path}" VerticalAlignment="Center"/>
 							<Button Grid.Column="2" Content="..." Command="{Binding $parent[Window].((vm:OptionsWindowViewModel)DataContext).SelectPathCommand}" Margin="4,0">
 								<Button.CommandParameter>
 									<MultiBinding Converter="{StaticResource ObjectMultiConverter}">
-										<Binding />
 										<!-- This binds to the current PathOption object -->
-										<Binding Path="$parent[Window]"/>
+										<Binding />
 										<!-- This binds to the Window -->
+										<Binding Path="$parent[Window]"/>
 									</MultiBinding>
 								</Button.CommandParameter>
 							</Button>
+						</Grid>
+					</Panel>
+				</DataTemplate>
+
+				<DataTemplate DataType="models:EnumOptionBase">
+					<Panel Margin="10,5" Height="26">
+						<Grid ColumnDefinitions="Auto, *">
+							<TextBlock Grid.Column="0" Margin="5,0" Text="{Binding Name}" VerticalAlignment="Center" />
+
+							<ComboBox Grid.Column="1"
+									  ItemsSource="{Binding AllValues}"
+									  SelectedItem="{Binding SelectedValue}"
+									  HorizontalAlignment="Stretch" />
 						</Grid>
 					</Panel>
 				</DataTemplate>

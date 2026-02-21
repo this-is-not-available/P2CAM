@@ -25,11 +25,13 @@ namespace P2CAM.UI.Avalonia.ViewModels
             assetManager = _assetManager;
             onSaved = _onSaved;
             Options.Add(new PathOption("Portal 2 Directory", assetManager.options.Portal2_Dir!));
+            Options.Add(new EnumOption<Theme>("App theme", (assetManager.options as AppOptions)!.AppTheme));
         }
 
         public void Save()
         {
             assetManager.options.Portal2_Dir = (Options.FirstOrDefault(o => o.Name == "Portal 2 Directory") as PathOption)!.Path;
+            (assetManager.options as AppOptions)!.AppTheme = (Theme)(Options.FirstOrDefault(o => o.Name == "App theme") as EnumOption<Theme>)!.SelectedValue!;
             onSaved?.Invoke();
         }
 

@@ -14,10 +14,22 @@ using Tomlyn;
 
 namespace P2CAM.UI.Avalonia
 {
+    public enum Theme
+    {
+        System,
+        Light,
+        Dark
+    }
+
+    public class AppOptions : Options
+    {
+        public Theme AppTheme { get; set; } = Theme.System;
+    }
+
     public class OptionsLoader
     {
         private bool loadFailed = false;
-        public Options options = new Options();
+        public AppOptions options = new AppOptions();
 
         public OptionsLoader()
         {
@@ -50,10 +62,8 @@ namespace P2CAM.UI.Avalonia
         {
             if (!File.Exists("appsettings.toml"))
             {
-                // No settings found, generate stock settings and save
-                options = new Options();
-                // Do not save, saves us from warning TODO: do we want to save?
-                //Save();
+                // No settings found, generate stock settings
+                options = new AppOptions();
                 return;
             }
 
@@ -62,7 +72,7 @@ namespace P2CAM.UI.Avalonia
             {
                 var optionsText = File.ReadAllText("appsettings.toml");
                 var modelOptions = new TomlModelOptions { IgnoreMissingProperties = true };
-                options = Toml.Parse(optionsText).ToModel<Options>(modelOptions);
+                options = Toml.Parse(optionsText).ToModel<AppOptions>(modelOptions);
             }
             catch (Exception e)
             {
@@ -82,7 +92,7 @@ namespace P2CAM.UI.Avalonia
     internal sealed class Program
     {
         public static OptionsLoader optionsLoader = new OptionsLoader();
-        public static Options? options;
+        public static AppOptions? options;
         public static AssetManager? assetManager;
 
         // Initialization code. Don't use any Avalonia, third-party APIs or any

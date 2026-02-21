@@ -44,4 +44,27 @@ namespace P2CAM.UI.Avalonia.Models
             Value = _value;
         }
     }
+
+    public abstract class EnumOptionBase : OptionItem
+    {
+        public abstract IEnumerable<object> AllValues { get; }
+        public abstract object? SelectedValue { get; set; }
+    }
+
+    public partial class EnumOption<T> : EnumOptionBase where T : struct, Enum
+    {
+        [ObservableProperty]
+        private T _value;
+
+        // Bridge the generic T to the object-based base class
+        public override IEnumerable<object> AllValues => Enum.GetValues<T>().Cast<object>();
+
+        public override object? SelectedValue
+        {
+            get => Value;
+            set => Value = (T)value!;
+        }
+
+        public EnumOption(string name, T defaultValue) { Name = name; Value = defaultValue; }
+    }
 }

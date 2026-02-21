@@ -13,12 +13,16 @@
 			<ResourceDictionary.ThemeDictionaries>
 				<!-- Colors for Light Mode -->
 				<ResourceDictionary x:Key="Light">
-					<SolidColorBrush x:Key="ToolbarBackground" Color="#F3F3F3"/> 
+					<SolidColorBrush x:Key="ToolbarBackground" Color="#F3F3F3"/>
+					<SolidColorBrush x:Key="SplitterColor" Color="#CCCCCC"/>
+					<SolidColorBrush x:Key="SplitterHandleColor" Color="#999999"/>
 				</ResourceDictionary>
 				<!-- Colors for Dark Mode -->
 				<ResourceDictionary x:Key="Dark">
 					<SolidColorBrush x:Key="ToolbarBackground" Color="#202020"/>
 					<SolidColorBrush x:Key="SystemRegionBrush" Color="#1B1B1B"/>
+					<SolidColorBrush x:Key="SplitterColor" Color="#666666"/>
+					<SolidColorBrush x:Key="SplitterHandleColor" Color="#333333"/>
 				</ResourceDictionary>
 			</ResourceDictionary.ThemeDictionaries>
 		</ResourceDictionary>

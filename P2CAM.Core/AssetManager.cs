@@ -2,6 +2,7 @@ using Microsoft.VisualBasic.FileIO;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO.Compression;
+using System.Runtime.InteropServices;
 using System.Text;
 using Tomlyn;
 
@@ -81,9 +82,7 @@ namespace P2CAM.Core
             if (!Directory.Exists(customFolder))
             {
                 Debug.WriteLine("No custom folder");
-                //return;
 
-                // TODO: keep this?
                 Directory.CreateDirectory(customFolder);
             }
 
@@ -221,8 +220,12 @@ namespace P2CAM.Core
             MountHandler.RemoveCustomSearchPathFromGameinfo(Portal2Dir, customDir, asset.FilePath);
 
             Debug.WriteLine($"Deleting directory {asset.FilePath}");
-            // TODO: is this cross-platform?
-            FileSystem.DeleteDirectory(asset.FilePath, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+
+            // I am too lazy to implement a trash can for non-windows platforms
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                FileSystem.DeleteDirectory(asset.FilePath, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+            else
+                Directory.Delete(asset.FilePath, true);
 
             Assets.Remove(asset);
         }
@@ -315,12 +318,6 @@ namespace P2CAM.Core
 
             // TODO: if an exception occurs, the tempDir will still exist on disk
             Directory.Delete(tempDir, true);
-        }
-
-        // TODO: should this be called somewhere or should it be deleted?
-        public void Clear()
-        {
-            Assets.Clear();
         }
 
         private static string SanitizeDirectoryName(string name)

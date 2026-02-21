@@ -1,8 +1,10 @@
+using Microsoft.Win32;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
+using System.Runtime.InteropServices;
 
 namespace P2CAM.Core
 {
@@ -23,21 +25,34 @@ namespace P2CAM.Core
             return true;
         }
 
+        // TODO: Verify if this correctly handles cross-platform default Steam locations
+        public static string GetDefaultSteamPath()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                using var key = Registry.CurrentUser.OpenSubKey(@"Software\Valve\Steam");
+                return key?.GetValue("SteamPath")?.ToString() ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Steam");
+            }
+
+            string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                return Path.Combine(home, "Library/Application Support/Steam");
+
+            // Linux Default
+            return Path.Combine(home, ".local/share/Steam");
+        }
+
         public static string? FindPortal2Directory()
         {
-            // TODO: Add cross-platform default Steam locations
-            // 1. Check default Steam location (C:\Program Files (x86)\Steam\steamapps\common\Portal 2)
-            string defaultPath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
-                "Steam", "steamapps", "common", "Portal 2");
+            string steamInstallDirectory = GetDefaultSteamPath();
+
+            // 1. Check default Steam location
+            string defaultPath = Path.Combine(steamInstallDirectory, "steamapps", "common", "Portal 2");
             if (ValidatePortal2Directory(defaultPath))
                 return defaultPath;
 
-            // TODO: Add cross-platform default Steam locations
             // 2. Parse libraryfolders.vdf for all "path" entries
-            string vdfPath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
-                "Steam", "steamapps", "libraryfolders.vdf");
+            string vdfPath = Path.Combine(steamInstallDirectory, "steamapps", "libraryfolders.vdf");
             if (File.Exists(vdfPath))
             {
                 foreach (var path in GetSteamLibraryPathsFromVdf(vdfPath))
