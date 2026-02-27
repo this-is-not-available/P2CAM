@@ -32,6 +32,8 @@ namespace P2CAM.UI.Avalonia.ViewModels
         public string selectedCredit = string.Empty;
         [ObservableProperty]
         public string selectedVersion = string.Empty;
+        [ObservableProperty]
+        public bool isAssetsEmpty = true;
         private string SelectedId = string.Empty;
         private OptionsWindow? options;
 
@@ -96,7 +98,11 @@ namespace P2CAM.UI.Avalonia.ViewModels
             if (assetManager.Assets.Count > 0)
             {
                 SelectAsset(assetManager.Assets[0]);
+                IsAssetsEmpty = false;
+                return;
             }
+
+            IsAssetsEmpty = true;
         }
 
         public void UpdateGlobalTheme()

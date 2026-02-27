@@ -23,7 +23,7 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-	<DockPanel>
+	<DockPanel x:Name="DockPanel">
 		<!-- ToolStrip Area -->
 		<StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="{DynamicResource ToolbarBackground}" Spacing="0">
 			<Button Content="Install" Background="Transparent" Padding="5" Margin="5" Click="InstallAssetHandler"/>
@@ -32,8 +32,13 @@
 			<!-- <Button Content="Create" Background="Transparent" Padding="5" Margin="5" Command="{Binding CreateHandler}"/> -->
 			<Button Content="Options" Background="Transparent" Padding="5" Margin="5" Command="{Binding OpenOptionsHandler}"/>
 		</StackPanel>
+
+		<StackPanel IsVisible="{Binding IsAssetsEmpty}" Width="{Binding #DockPanel.Bounds.Width}" VerticalAlignment="Center" HorizontalAlignment="Center">
+			<Label HorizontalAlignment="Center">Seems empty in here..</Label>
+			<Button HorizontalAlignment="Center" Click="InstallAssetHandler">Install an asset!</Button>
+		</StackPanel>
 		
-		<Grid x:Name="RootGrid">
+		<Grid IsVisible="{Binding !IsAssetsEmpty}" x:Name="RootGrid">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" />
