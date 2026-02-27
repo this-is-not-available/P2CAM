@@ -7,7 +7,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="P2CAM.UI.Avalonia.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/p2cam_48.png"
 		MinWidth="600" MinHeight="400"
 		Width="1024" Height="660"
         Title="P2CAM">

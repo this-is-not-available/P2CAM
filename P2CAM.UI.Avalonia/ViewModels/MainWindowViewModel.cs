@@ -74,7 +74,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
 
             SelectedImage = new WriteableBitmap(new PixelSize(1, 1), new Vector(96, 96), PixelFormat.Bgra8888);
             SelectedName = "unloaded";
-            SelectedDescription += "unloaded";
+            SelectedDescription = "unloaded";
             SelectedAuthor = "Author: unloaded";
             SelectedCredit = "Credit: unloaded";
             SelectedVersion = "Version: unloaded";

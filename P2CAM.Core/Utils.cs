@@ -1,4 +1,3 @@
-using Microsoft.Win32;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -30,8 +29,12 @@ namespace P2CAM.Core
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                using var key = Registry.CurrentUser.OpenSubKey(@"Software\Valve\Steam");
-                return key?.GetValue("SteamPath")?.ToString() ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Steam");
+                using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Valve\Steam");
+
+                return key?.GetValue("SteamPath")?.ToString()
+                    ?? Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+                        "Steam");
             }
 
             string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);

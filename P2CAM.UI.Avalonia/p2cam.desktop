@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=P2CAM
+Exec=P2CAM.Avalonia
+Icon=p2cam
+Type=Application
+Categories=Game;Development;
+Comment=Portal 2 Custom Asset Manager
+Terminal=false

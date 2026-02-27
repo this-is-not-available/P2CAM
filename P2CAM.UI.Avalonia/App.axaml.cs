@@ -36,7 +36,8 @@ namespace P2CAM.UI.Avalonia
             {
                 // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
                 // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
-                DisableAvaloniaDataAnnotationValidation();
+                // TODO: Disabled to avoid IL2026 during trimming. Should we do this?
+                //DisableAvaloniaDataAnnotationValidation();
                 desktop.MainWindow = new MainWindow
                 {
                     DataContext = new MainWindowViewModel(assetManager),
@@ -46,7 +47,7 @@ namespace P2CAM.UI.Avalonia
             base.OnFrameworkInitializationCompleted();
         }
 
-        private void DisableAvaloniaDataAnnotationValidation()
+        /*private void DisableAvaloniaDataAnnotationValidation()
         {
             // Get an array of plugins to remove
             var dataValidationPluginsToRemove =
@@ -57,6 +58,6 @@ namespace P2CAM.UI.Avalonia
             {
                 BindingPlugins.DataValidators.Remove(plugin);
             }
-        }
+        }*/
     }
 }
