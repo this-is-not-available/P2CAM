@@ -58,9 +58,9 @@ jobs:
           cp ./P2CAM.UI.Avalonia/Assets/p2cam.png ./AppDir/p2cam.png
           cp ./P2CAM.UI.Avalonia/Assets/p2cam.svg ./AppDir/p2cam.svg
           cp ./P2CAM.UI.Avalonia/AppRun ./AppDir/AppRun
-          cp ./P2CAM.UI.Avalonia/p2cam.desktop ./AppDir/usr/share/applications/p2cam.desktop
-          cp ./P2CAM.UI.Avalonia/p2cam.appdata.xml ./AppDir/usr/share/metainfo/p2cam.appdata.xml
-          ln ./AppDir/usr/share/applications/p2cam.desktop ./AppDir/p2cam.desktop
+          cp ./P2CAM.UI.Avalonia/p2cam.desktop ./AppDir/usr/share/applications/io.github.this_is_not_available.P2CAM.desktop
+          cp ./P2CAM.UI.Avalonia/p2cam.appdata.xml ./AppDir/usr/share/metainfo/io.github.this_is_not_available.P2CAM.appdata.xml
+          ln ./AppDir/usr/share/applications/io.github.this_is_not_available.P2CAM.desktop ./AppDir/io.github.this_is_not_available.P2CAM.desktop
           chmod +x ./AppDir/AppRun ./AppDir/usr/bin/P2CAM.Avalonia
           sed -i '1s/^.*#/#/;s/\r$//' ./AppDir/AppRun
           ARCH=x86_64 ./appimagetool-x86_64.AppImage --appimage-extract-and-run ./AppDir P2CAM-${{ github.ref_name }}-${{ matrix.runtime }}.AppImage
