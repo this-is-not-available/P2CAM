@@ -33,11 +33,10 @@ jobs:
 
       # Windows specific build steps
     - name: Rename executable with version
-      shell: powershell
       if: matrix.os == 'windows-latest'
       run: |
         mkdir dist
-        copy ./publish-out/P2CAM.Avalonia.exe dist/P2CAM-${{ github.ref_name }}-${{ matrix.runtime }}.exe
+        cp ./publish-out/P2CAM.Avalonia.exe dist/P2CAM-${{ github.ref_name }}-${{ matrix.runtime }}.exe
 
       # Linux specific build steps
     - name: Install appimagetool
@@ -67,8 +66,24 @@ jobs:
           mkdir dist
           mv P2CAM-${{ github.ref_name }}-${{ matrix.runtime }}.AppImage dist/
 
-    - name: Upload to release
-      uses: softprops/action-gh-release@v2
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
       with:
-        files: |
-          dist/*
+        name: dist-${{ matrix.runtime }}
+        path: dist/*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-dist
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release-dist/**
