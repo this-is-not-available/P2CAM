@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component type="desktop-application">
-	<id>p2cam</id>
+	<id>io.github.this_is_not_available.P2CAM</id>
 	<metadata_license>MIT</metadata_license>
 	<project_license>MIT</project_license>
 	<name>P2CAM</name>
