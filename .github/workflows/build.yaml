@@ -63,7 +63,7 @@ jobs:
           ln ./AppDir/usr/share/applications/io.github.this_is_not_available.P2CAM.desktop ./AppDir/io.github.this_is_not_available.P2CAM.desktop
           chmod +x ./AppDir/AppRun ./AppDir/usr/bin/P2CAM.Avalonia
           sed -i '1s/^.*#/#/;s/\r$//' ./AppDir/AppRun
-          ARCH=x86_64 ./appimagetool-x86_64.AppImage --appimage-extract-and-run ./AppDir P2CAM-${{ github.ref_name }}-${{ matrix.runtime }}.AppImage
+          ARCH=x86_64 ./appimagetool-x86_64.AppImage --appimage-extract-and-run -n ./AppDir P2CAM-${{ github.ref_name }}-${{ matrix.runtime }}.AppImage
           mkdir dist
           mv P2CAM-${{ github.ref_name }}-${{ matrix.runtime }}.AppImage dist/
 
