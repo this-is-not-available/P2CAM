@@ -6,7 +6,7 @@
 	<name>P2CAM</name>
 	<summary>Browse, install and create Portal 2 mapping assets</summary>
 	<description>
-		<p>Portal 2 Custom Asset Manager is your all in one asset management tool which allows you to easily share custom assets for everyone to use. P2CAM makes it easy to find the asset you installed and see the required credit of it when distributing a map with the asset.</p>
+		<p>Portal 2 Custom Asset Manager is your all in one asset management tool which allows you to easily share custom assets for everyone to use. P2CAM makes it easy to find the asset you installed and see the required credit for it when distributing a map with the asset.</p>
 	</description>
 	<launchable type="desktop-id">io.github.this_is_not_available.P2CAM.desktop</launchable>
 	<url type="homepage">https://github.com/this-is-not-available/P2CAM/</url>
