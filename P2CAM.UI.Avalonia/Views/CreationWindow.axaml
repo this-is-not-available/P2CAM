@@ -1,0 +1,23 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:P2CAM.UI.Avalonia.ViewModels"
+		xmlns:models="using:P2CAM.UI.Avalonia.Models"
+		xmlns:conv="using:P2CAM.UI.Avalonia.Converters"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="P2CAM.UI.Avalonia.CreationWindow"
+		x:DataType="vm:CreationWindowViewModel"
+        Icon="/Assets/p2cam_48.png"
+		MinWidth="600"
+		MinHeight="400"
+		MaxWidth="600"
+		MaxHeight="400"
+        Title="Asset Creation">
+
+	<Window.Resources>
+		<conv:ObjectMultiConverter x:Key="ObjectMultiConverter"/>
+	</Window.Resources>
+	
+	Welcome to Avalonia!
+</Window>

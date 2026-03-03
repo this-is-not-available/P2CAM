@@ -43,6 +43,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\CreationWindow.axaml.cs">
+      <DependentUpon>CreationWindow.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\OptionsWindow.axaml.cs">
       <DependentUpon>OptionsWindow.axaml</DependentUpon>
     </Compile>

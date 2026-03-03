@@ -36,6 +36,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
         public bool isAssetsEmpty = true;
         private string SelectedId = string.Empty;
         private OptionsWindow? options;
+        private CreationWindow? creationWindow;
 
         public ObservableCollection<DisplayItem> Items { get; }
             = new ObservableCollection<DisplayItem>();
@@ -186,18 +187,29 @@ namespace P2CAM.UI.Avalonia.ViewModels
                 };
             }
         }
+        
+        public void CreateHandler()
+        {
+            if (creationWindow == null)
+            {
+                var vm = new CreationWindowViewModel();
+                creationWindow = new CreationWindow { DataContext = vm };
+
+                creationWindow.Show();
+
+                creationWindow.Closed += (object? sender, EventArgs e) =>
+                {
+                    creationWindow = null;
+                };
+            }
+        }
 
         // Return true to allow closing
         public bool OnClosing()
         {
             options?.Close();
+            creationWindow?.Close();
             return true;
-        }
-        
-        // TODO: Implement
-        public void CreateHandler()
-        {
-
         }
 
         public MainWindowViewModel(AssetManager _assetManager)

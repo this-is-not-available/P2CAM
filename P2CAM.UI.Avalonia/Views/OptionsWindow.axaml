@@ -9,6 +9,8 @@
         x:Class="P2CAM.UI.Avalonia.OptionsWindow"
 		x:DataType="vm:OptionsWindowViewModel"
         Icon="/Assets/p2cam_48.png"
+		MinWidth="300"
+		MinHeight="120"
 		Width="600"
 		Height="400"
         Title="Options">
