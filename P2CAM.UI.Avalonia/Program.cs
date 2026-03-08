@@ -9,6 +9,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Tomlyn;
 
@@ -119,9 +120,22 @@ namespace P2CAM.UI.Avalonia
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>(() => new App(assetManager))
+        {
+            var app = AppBuilder.Configure<App>(() => new App(assetManager))
                 .UsePlatformDetect()
                 .WithInterFont()
                 .LogToTrace();
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                // Reduces memory usage significantly
+                app.With(new Win32PlatformOptions
+                {
+                    RenderingMode = [Win32RenderingMode.Software]
+                });
+            }
+
+            return app;
+        }
     }
 }
