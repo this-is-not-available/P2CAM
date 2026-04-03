@@ -13,7 +13,8 @@
 		MinHeight="652"
 		MaxWidth="1200"
 		MaxHeight="652"
-        Title="Asset Creation">
+        Title="Asset Creation"
+		CanResize="false">
 
 	<StackPanel>
 		<Grid ColumnDefinitions="*,*,*,*,*,*,*">
@@ -52,12 +53,30 @@
 				<StackPanel>
 					<!-- Asset files preview -->
 					<TextBlock Text="Asset Files Preview" Margin="0,0,0,4" />
-					<ListBox ItemsSource="{Binding AssetFiles}" Height="200" Margin="0,0,0,8" />
+					<ListBox ItemsSource="{Binding AssetFiles}" Height="200" Margin="0,0,0,4" Padding="0" >
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal" Margin="0">
+									<Image Stretch="Uniform" Width="40" Height="40" Margin="2" Source="{Binding Icon}" />
+									<TextBlock FontSize="9" LetterSpacing="{Binding ExtSpacing}" Margin="-42,12,2,2" TextAlignment="Center" VerticalAlignment="Center" FontFamily="avares://P2CAM.Avalonia/Assets/Fonts#Roboto Mono Bold" FontWeight="Bold" Text="{Binding FileExt}"/>
+									<TextBlock VerticalAlignment="Center" Margin="2" Text="{Binding FileName}"/>
+								</StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+						<ListBox.Styles>
+							<Style Selector="ListBoxItem">
+								<Setter Property="Padding" Value="2"/>
+							</Style>
+						</ListBox.Styles>
+					</ListBox>
 					<!-- Buttons -->
 					<StackPanel Orientation="Horizontal" >
-						<Button Content="Select Folder" Click="SelectFolderHandler" Margin="4,0" />
+						<Button Content="Select Folder" Click="SelectFolderHandler" Margin="2,0" />
 						<!-- <Button Content="Open Folder" Command="{Binding OpenFolderHandler}" Margin="4,0" /> -->
 					</StackPanel>
+					<!-- Detected asset types -->
+					<TextBlock Text="Detected asset types" Margin="0,6,0,4" />
+					<ListBox ItemsSource="{Binding DetectedAssets}" Height="200" Margin="0,0,0,8" />
 				</StackPanel>
 			</Border>
 		</Grid>

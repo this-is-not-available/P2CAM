@@ -1,6 +1,7 @@
-﻿using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using MsBox.Avalonia;
@@ -13,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
 namespace P2CAM.UI.Avalonia.ViewModels
 {
@@ -36,7 +36,9 @@ namespace P2CAM.UI.Avalonia.ViewModels
         public string assetTags = string.Empty;
         [ObservableProperty]
         public CreditType assetCredit = CreditType.NotRequired;
-        public ObservableCollection<string> AssetFiles { get; }
+        public ObservableCollection<FileListItem> AssetFiles { get; set; }
+            = new ObservableCollection<FileListItem>();
+        public ObservableCollection<string> DetectedAssets { get; set; }
             = new ObservableCollection<string>();
 
         public ObservableCollection<CreditType> CreditTypes { get; }
@@ -94,6 +96,65 @@ namespace P2CAM.UI.Avalonia.ViewModels
             }
         }
 
+        private Bitmap GetIconForFile(string path)
+        {
+            // Determine icon key
+            string iconKey;
+            if (Directory.Exists(path))
+            {
+                iconKey = "folder";
+            }
+            else
+            {
+                string ext = Path.GetExtension(path).ToLowerInvariant();
+                switch (ext)
+                {
+                    // TODO: add the rest of the file extension icons
+                    // TODO: add proper mapping from all supported file extensions
+                    /*case ".vtf":
+                        iconKey = "file_image";
+                        break;
+                    case ".mp3":
+                    case ".wav":
+                    case ".ogg":
+                        iconKey = "file_audio";
+                        break;
+                    case ".bik":
+                        iconKey = "file_video";
+                        break;
+                    case ".txt":
+                    case ".cfg":
+                    case ".nut":
+                    case ".nut":
+                    case ".vmt":
+                        iconKey = "file_document";
+                        break;
+                    case ".vpk":
+                    case ".zip":
+                        iconKey = "file_archive";
+                        break;*/
+                    default:
+                        iconKey = "file_generic";
+                        break;
+                }
+            }
+
+            // Try to load the icon from resources
+            string iconPath = $"avares://P2CAM.Avalonia/Assets/Icons/{iconKey}_icon.png";
+            try
+            {
+                if (AssetLoader.Exists(new Uri(iconPath)))
+                {
+                    using var stream = AssetLoader.Open(new Uri(iconPath));
+                    return new Bitmap(stream);
+                }
+            }
+            catch { /* ignore and fallback */ }
+
+            // Fallback to a 1x1 transparent bitmap
+            return new WriteableBitmap(new PixelSize(1, 1), new Vector(96, 96), PixelFormat.Bgra8888);
+        }
+
         public async void SelectFolder(TopLevel topLevel)
         {
             var folders = await topLevel!.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
@@ -108,20 +169,53 @@ namespace P2CAM.UI.Avalonia.ViewModels
                 string path = folders[0].TryGetLocalPath()!;
                 SelectedPath = path;
 
-                foreach (var file in AssetFiles)
-                {
-                    AssetFiles.Remove(file);
-                }
+                AssetFiles.Clear();
                 foreach (var folder in Directory.GetDirectories(path))
                 {
                     // This is the first thing that came to mind when I thought of how to get the name of the folder
                     // Please forgive me
-                    AssetFiles.Add(Path.GetFileName(Path.TrimEndingDirectorySeparator(folder) + ".png").TrimEnd(['p', 'n', 'g']).TrimEnd('.'));
+                    AssetFiles.Add(new FileListItem(
+                        Path.GetFileName(Path.TrimEndingDirectorySeparator(folder) + ".png").TrimEnd(['p', 'n', 'g']).TrimEnd('.'),
+                        string.Empty,
+                        GetIconForFile(folder)
+                    ));
                 }
 
                 foreach (var file in Directory.GetFiles(path))
                 {
-                    AssetFiles.Add(Path.GetFileName(file));
+                    AssetFiles.Add(new FileListItem(
+                        Path.GetFileName(file),
+                        Path.GetExtension(file),
+                        GetIconForFile(file)
+                    ));
+                }
+
+                var assetDirectories = new Dictionary<string, string>
+                    {
+                        { "materials", "Materials" },
+                        { "models", "Models" },
+                        { "particles", "Particles" },
+                        { "scripts", "Scripts" },
+                        { "sound", "Sound" },
+                        { "instances", "Instances" },
+                        { "prefabs", "Prefabs" }
+                    };
+
+                // Find detected asset types
+                var detectedTypes = new List<string>();
+                foreach (var kvp in assetDirectories)
+                {
+                    string subDir = Path.Combine(path, kvp.Key);
+                    if (Directory.Exists(subDir))
+                    {
+                        detectedTypes.Add(kvp.Value);
+                    }
+                }
+
+                DetectedAssets.Clear();
+                foreach (var detectedType in detectedTypes)
+                {
+                    DetectedAssets.Add(detectedType);
                 }
             }
         }

@@ -129,7 +129,7 @@ namespace P2CAM.UI.Avalonia
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 // Reduces memory usage significantly
-                app.With(new Win32PlatformOptions
+                app = app.With(new Win32PlatformOptions
                 {
                     RenderingMode = [Win32RenderingMode.Software]
                 });
