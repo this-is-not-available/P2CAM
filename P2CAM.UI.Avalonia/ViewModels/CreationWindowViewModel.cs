@@ -131,6 +131,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
                         break;
                     case ".vpk":
                     case ".zip":
+                    case ".rar":
                         iconKey = "file_archive";
                         break;*/
                     default:
@@ -216,6 +217,19 @@ namespace P2CAM.UI.Avalonia.ViewModels
                 foreach (var detectedType in detectedTypes)
                 {
                     DetectedAssets.Add(detectedType);
+                }
+
+                if (DetectedAssets.Count == 0)
+                {
+                    var box = MessageBoxManager.GetMessageBoxStandard(
+                            "No assets detected",
+                            "No valid content directories were able to be identified in the selected folder. This asset might not work correctly when installed.",
+                            ButtonEnum.Ok,
+                            Icon.Warning
+                        );
+
+                    var result = await box.ShowAsync();
+                    return;
                 }
             }
         }
