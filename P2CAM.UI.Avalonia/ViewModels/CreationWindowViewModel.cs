@@ -73,7 +73,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
                 if (localPath != null)
                 {
                     SelectedImage = localPath;
-                    Console.WriteLine($"Selected image: {localPath}");
+                    Debug.WriteLine($"Selected image: {localPath}");
                     try
                     {
                         Stream stream = File.OpenRead(localPath);

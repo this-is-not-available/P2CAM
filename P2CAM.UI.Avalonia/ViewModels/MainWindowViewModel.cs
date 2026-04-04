@@ -141,7 +141,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
 
                 if (localPath != null)
                 {
-                    Console.WriteLine($"Selected file: {localPath}");
+                    Debug.WriteLine($"Selected file: {localPath}");
                     assetManager.InstallAsset(localPath);
                 }
                 Refresh();
