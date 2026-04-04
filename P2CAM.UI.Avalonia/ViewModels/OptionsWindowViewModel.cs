@@ -2,6 +2,8 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using P2CAM.Core;
 using P2CAM.UI.Avalonia.Models;
 using System;
@@ -32,6 +34,19 @@ namespace P2CAM.UI.Avalonia.ViewModels
         {
             assetManager.options.Portal2_Dir = (Options.FirstOrDefault(o => o.Name == "Portal 2 Directory") as PathOption)!.Path;
             (assetManager.options as AppOptions)!.AppTheme = (Theme)(Options.FirstOrDefault(o => o.Name == "App theme") as EnumOption<Theme>)!.SelectedValue!;
+
+            if (!SteamUtils.ValidatePortal2Directory(assetManager.options.Portal2_Dir))
+            {
+                var box = MessageBoxManager.GetMessageBoxStandard(
+                            "Not a valid directory",
+                            "The selected folder couldn't be identified as a Portal 2 installation. Are you sure the path is correct?",
+                            ButtonEnum.Ok,
+                            Icon.Warning
+                        );
+
+                box.ShowAsync();
+            }
+
             onSaved?.Invoke();
         }
 

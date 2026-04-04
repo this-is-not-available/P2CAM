@@ -79,11 +79,18 @@ namespace P2CAM.Core
 
             // Ensure the custom folder exists
             string customFolder = Path.Combine(installDirectory, "portal2", "custom");
-            if (!Directory.Exists(customFolder))
+            try
             {
-                Debug.WriteLine("No custom folder");
+                if (!Directory.Exists(customFolder))
+                {
+                    Debug.WriteLine("No custom folder");
 
-                Directory.CreateDirectory(customFolder);
+                    Directory.CreateDirectory(customFolder);
+                }
+            }
+            catch (Exception e)
+            {
+
             }
 
             // Find all asset directories containing def.toml
