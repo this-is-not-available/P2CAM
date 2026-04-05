@@ -6,7 +6,7 @@ I aim for P2CAM to become a one-stop place for anything custom asset related, as
 
 All custom assets are installed and mounted from ```Portal 2/portal/custom``` leading to them being easily manipulated.
 
-The GUI being written with WinForms means this is Windows-only for the time being.
+The project is cross-platform with Windows and Linux support.
 
 This project is still in very early development, so a lot of crucial features and documentation is missing or unfinished.
 
@@ -25,11 +25,10 @@ Anyone that wants to contribute to this project is free to do so!
 * Asset creator
     * An intuitive UI for creating .p2asset files
     * Can set everything you can view in the asset browser and lets you select asset files and tags as well.
+* Cross-platform support
 
 ## Planned features
 
-* Cross-platform support
-    * Self-explanatory, requires separating core functionality and UI code as well as adopting a cross-platform GUI library
 * Search
     * Would let you search tags, description, title and asset type in the asset browser for quick retrieval
 * Asset preview
