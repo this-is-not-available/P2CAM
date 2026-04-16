@@ -37,9 +37,12 @@ namespace P2CAM.UI.Avalonia.ViewModels
         private string SelectedId = string.Empty;
         private OptionsWindow? options;
         private CreationWindow? creationWindow;
+        private ZipInstallWindow? zipInstall;
 
         public ObservableCollection<DisplayItem> Items { get; }
             = new ObservableCollection<DisplayItem>();
+
+        private Bitmap unavailableImage = new WriteableBitmap(new PixelSize(1, 1), new Vector(96, 96), PixelFormat.Bgra8888);
 
         private AssetManager assetManager;
 
@@ -65,8 +68,29 @@ namespace P2CAM.UI.Avalonia.ViewModels
             SelectedVersion = "Version: " + asset.Version;
             SelectedId = asset.Id;
 
-            SelectedImage.Dispose();
-            SelectedImage = new Bitmap(Path.Combine(asset.FilePath, asset.Image));
+            if (SelectedImage != unavailableImage) SelectedImage.Dispose();
+            SelectedImage = unavailableImage;
+            if (File.Exists(Path.Combine(asset.FilePath, asset.Image)))
+            {
+                SelectedImage = new Bitmap(Path.Combine(asset.FilePath, asset.Image));
+            }
+        }
+
+        private void AddAsset(Asset asset)
+        {
+            DisplayItem item = new DisplayItem
+            {
+                Title = asset.Name,
+                Id = asset.Id,
+                Image = unavailableImage
+            };
+
+            if (File.Exists(Path.Combine(asset.FilePath, asset.Image)))
+            {
+                item.Image = new Bitmap(Path.Combine(asset.FilePath, asset.Image));
+            }
+
+            Items.Add(item);
         }
 
         public void Refresh()
@@ -88,12 +112,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
             Items.Clear();
             foreach (Asset asset in assetManager.Assets)
             {
-                Items.Add(new DisplayItem
-                {
-                    Title = asset.Name,
-                    Image = new Bitmap(Path.Combine(asset.FilePath, asset.Image)),
-                    Id = asset.Id
-                });
+                AddAsset(asset);
             }
 
             if (assetManager.Assets.Count > 0)
@@ -122,7 +141,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
             {
                 Title = "Select Asset",
                 AllowMultiple = false,
-                
+
                 FileTypeFilter = new[]
                 {
                     new FilePickerFileType("Custom Asset Files (*.p2asset)") { Patterns = new[] { "*.p2asset" } },
@@ -145,6 +164,23 @@ namespace P2CAM.UI.Avalonia.ViewModels
                     assetManager.InstallAsset(localPath);
                 }
                 Refresh();
+            }
+        }
+
+        public void InstallZipAsset()
+        {
+            if (zipInstall == null)
+            {
+                var vm = new ZipInstallWindowViewModel(assetManager);
+                zipInstall = new ZipInstallWindow { DataContext = vm };
+
+                zipInstall.Show();
+
+                zipInstall.Closed += (object? sender, EventArgs e) =>
+                {
+                    zipInstall = null;
+                    Refresh();
+                };
             }
         }
 
@@ -215,6 +251,18 @@ namespace P2CAM.UI.Avalonia.ViewModels
         public MainWindowViewModel(AssetManager _assetManager)
         {
             assetManager = _assetManager;
+
+            string imagePath = $"avares://P2CAM.Avalonia/Assets/no_image_provided.png";
+            try
+            {
+                if (AssetLoader.Exists(new Uri(imagePath)))
+                {
+                    using var stream = AssetLoader.Open(new Uri(imagePath));
+                    unavailableImage = new Bitmap(stream);
+                }
+            }
+            catch { /* ignore and fallback to already set 1x1 image */ }
+
             Refresh();
             UpdateGlobalTheme();
         }

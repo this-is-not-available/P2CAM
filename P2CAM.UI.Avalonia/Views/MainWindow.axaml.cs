@@ -36,5 +36,13 @@ namespace P2CAM.UI.Avalonia.Views
                 vm.InstallAsset(GetTopLevel(this)!);
             }
         }
+
+        public void InstallZipAssetHandler(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is MainWindowViewModel vm)
+            {
+                vm.InstallZipAsset();
+            }
+        }
     }
 }

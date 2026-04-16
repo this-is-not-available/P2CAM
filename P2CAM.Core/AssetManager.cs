@@ -67,6 +67,76 @@ namespace P2CAM.Core
             options = _options;
         }
 
+        /// <summary>
+        /// Installs an asset from a .zip file, using user-supplied metadata.
+        /// </summary>
+        /// <param name="zipPath">Path to the .zip file containing the asset files.</param>
+        /// <param name="metadata">AssetDefinition containing the asset metadata.</param>
+        /// <returns>True if installation succeeded, false otherwise.</returns>
+        public bool InstallAssetFromZip(string zipPath, AssetDefinition metadata)
+        {
+            InstallationInProgress = true;
+            try
+            {
+                ValidateAssetDefinition(metadata);
+
+                string? portal2Dir = options.Portal2_Dir;
+                if (portal2Dir == null)
+                {
+                    Debug.WriteLine("Portal 2 directory not found.");
+                    return false;
+                }
+
+                // Create a unique folder for the asset
+                string dirName = SanitizeDirectoryName(metadata.Name);
+                if (string.IsNullOrWhiteSpace(dirName))
+                    dirName = "Asset";
+
+                string customDir = Path.Combine(portal2Dir, "portal2", "custom");
+                string assetFolder = Path.Combine(customDir, dirName);
+                int suffix = 1;
+                while (Directory.Exists(assetFolder))
+                {
+                    assetFolder = Path.Combine(customDir, dirName + $"_{suffix++}");
+                }
+                Directory.CreateDirectory(assetFolder);
+
+                // Extract zip contents to the asset folder
+                try
+                {
+                    // TODO: don't assume content folders are top-level
+                    ZipFile.ExtractToDirectory(zipPath, assetFolder);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error extracting .zip: {ex.Message}");
+                    Debug.WriteLine($"{ex.StackTrace}");
+                    return false;
+                }
+
+                // Write def.toml metadata file
+                string defTomlPath = Path.Combine(assetFolder, "def.toml");
+                try
+                {
+                    string tomlString = Toml.FromModel(metadata);
+                    File.WriteAllText(defTomlPath, tomlString);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error writing def.toml: {ex.Message}");
+                    return false;
+                }
+
+                MountHandler.AddCustomSearchPathsToGameInfo(portal2Dir, customDir);
+                Debug.WriteLine($"Installed asset from zip to: {assetFolder}");
+                return true;
+            }
+            finally
+            {
+                InstallationInProgress = false;
+            }
+        }
+
         public void LoadAssetsInInstallation()
         {
             Assets.Clear();

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="392"
+   height="216"
+   viewBox="0 0 103.71666 57.15"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   sodipodi:docname="no_image_provided.svg"
+   inkscape:export-filename="no_image_provided.png"
+   inkscape:export-xdpi="192"
+   inkscape:export-ydpi="192"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="6.4675926"
+     inkscape:cx="167.60487"
+     inkscape:cy="123.77094"
+     inkscape:window-width="4096"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <ellipse
+       style="fill:none;stroke:#b3b3b3;stroke-width:2.38274;stroke-opacity:1"
+       id="path1"
+       cx="24.613136"
+       cy="28.574997"
+       rx="9.3919706"
+       ry="9.3919592" />
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:5.64438px;font-family:Arial;-inkscape-font-specification:'Arial Bold';writing-mode:lr-tb;direction:ltr;fill:#cccccc;stroke:none;stroke-width:0;stroke-opacity:1"
+       x="37.985229"
+       y="30.00156"
+       id="text2"
+       transform="scale(1.0000107,0.99998925)"><tspan
+         sodipodi:role="line"
+         id="tspan2"
+         style="font-size:5.64438px;fill:#cccccc;stroke:none;stroke-width:0"
+         x="37.985229"
+         y="30.00156">Image not provided</tspan></text>
+    <rect
+       style="fill:#b3b3b3;stroke:#b3b3b3;stroke-width:0;stroke-opacity:1"
+       id="rect2"
+       width="19.182301"
+       height="2.1166675"
+       x="-6.7896724"
+       y="-38.668026"
+       transform="rotate(135.00003)" />
+    <rect
+       style="fill:#b3b3b3;stroke:#b3b3b3;stroke-width:0;stroke-opacity:1"
+       id="rect2-1"
+       width="19.182301"
+       height="2.1166675"
+       x="28.01856"
+       y="1.7431451"
+       transform="rotate(44.999968)" />
+  </g>
+</svg>

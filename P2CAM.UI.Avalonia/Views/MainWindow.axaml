@@ -26,7 +26,15 @@
 	<DockPanel x:Name="DockPanel">
 		<!-- ToolStrip Area -->
 		<StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="{DynamicResource ToolbarBackground}" Spacing="0">
-			<Button Content="Install" Background="Transparent" Padding="5" Margin="5" Click="InstallAssetHandler"/>
+			<!-- <Button Content="Install" Background="Transparent" Padding="5" Margin="5" Click="InstallAssetHandler"/> -->
+			<Button Content="Install" Background="Transparent" Padding="5" Margin="5">
+				<Button.Flyout>
+					<MenuFlyout>
+						<MenuItem Header="From .p2asset" Click="InstallAssetHandler" />
+						<MenuItem Header="From .zip" Click="InstallZipAssetHandler" />
+					</MenuFlyout>
+				</Button.Flyout>
+			</Button>
 			<Button Content="Refresh" Background="Transparent" Padding="5" Margin="5" Command="{Binding Refresh}"/>
 			<Separator Height="20" Width="3" Margin="5,0"/>
 			<Button Content="Create" Background="Transparent" Padding="5" Margin="5" Command="{Binding CreateHandler}"/>

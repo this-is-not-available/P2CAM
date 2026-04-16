@@ -1,0 +1,36 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:P2CAM.UI.Avalonia.ViewModels"
+		xmlns:models="using:P2CAM.UI.Avalonia.Models"
+		xmlns:conv="using:P2CAM.UI.Avalonia.Converters"
+        xmlns:d="https://github.com/avaloniaui"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	    x:Class="P2CAM.UI.Avalonia.ZipInstallWindow"
+		x:DataType="vm:ZipInstallWindowViewModel"
+        Icon="/Assets/p2cam_48.png"
+        
+		MinWidth="400"
+		MinHeight="380"
+		MaxWidth="400"
+		MaxHeight="380"
+        Title="Install Asset from Zip">
+	
+    <StackPanel Margin="16" Spacing="8">
+        <TextBlock Text="Install Asset from Zip" FontWeight="Bold" FontSize="18" Margin="0,0,0,8"/>
+        <TextBlock Text="Zip File:"/>
+        <StackPanel Orientation="Horizontal" Spacing="4">
+			<TextBox Width="240" Text="{Binding ZipPath}"/>
+            <Button Content="Browse..." Click="SelectAssetHandler"/>
+        </StackPanel>
+        <TextBlock Text="Asset Name:"/>
+		<TextBox Text="{Binding AssetName}"/>
+        <TextBlock Text="Author:"/>
+        <TextBox Text="{Binding Author}"/>
+        <TextBlock Text="Credit Type:"/>
+		<ComboBox SelectedItem="{Binding CreditType, Mode=TwoWay}" ItemsSource="{Binding CreditTypes}"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="0,16,0,0">
+            <Button Content="Install" Command="{Binding Install}"/>
+            <Button Content="Cancel" Click="CancelHandler"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
