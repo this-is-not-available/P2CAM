@@ -55,7 +55,10 @@ public partial class ZipInstallWindow : Window
     {
         if (DataContext is ZipInstallWindowViewModel vm)
         {
-            vm.Install();
+            if (vm.Install())
+            {
+                this.Close();
+            }
         }
     }
 

@@ -6,7 +6,6 @@ using P2CAM.Core;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace P2CAM.UI.Avalonia.ViewModels
 {
@@ -28,7 +27,7 @@ namespace P2CAM.UI.Avalonia.ViewModels
             assetManager = AssetManager;
         }
 
-        public async void Install()
+        public bool Install()
         {
             string errorText = string.Empty;
 
@@ -58,12 +57,12 @@ namespace P2CAM.UI.Avalonia.ViewModels
                 var box = MessageBoxManager.GetMessageBoxStandard(
                     "Invalid information",
                     "The information provided is missing or incorrect: " + errorText,
-                    ButtonEnum.YesNo,
+                    ButtonEnum.Ok,
                     Icon.Warning
                 );
 
-                var result = await box.ShowAsync();
-                return;
+                _ = box.ShowAsync();
+                return false;
             }
 
             AssetDefinition definition = new AssetDefinition
@@ -72,7 +71,9 @@ namespace P2CAM.UI.Avalonia.ViewModels
                 Name = AssetName,
                 Credit = CreditType
             };
-            assetManager.InstallAssetFromZip(ZipPath, definition);
+            bool result = assetManager.InstallAssetFromZip(ZipPath, definition);
+
+            return result;
         }
     }
 }
