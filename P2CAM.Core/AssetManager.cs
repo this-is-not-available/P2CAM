@@ -44,6 +44,7 @@ namespace P2CAM.Core
         }
         public string RelativeImagePath { get; set; }
     }
+
     public class Asset : AssetDefinition
     {
         public Asset()
@@ -61,6 +62,8 @@ namespace P2CAM.Core
         public bool InstallationInProgress = false;
         public List<Asset> Assets { get; } = new();
         public Options options { get; set; }
+
+        private string[] contentDirectories = ["materials", "models", "particles", "scripts", "sound", "instances", "prefabs"];
 
         public AssetManager(Options _options)
         {
@@ -101,11 +104,49 @@ namespace P2CAM.Core
                 }
                 Directory.CreateDirectory(assetFolder);
 
-                // Extract zip contents to the asset folder
+                // Extract only whitelisted content directories at any depth from the zip, preserving their structure
                 try
                 {
-                    // TODO: don't assume content folders are top-level
-                    ZipFile.ExtractToDirectory(zipPath, assetFolder);
+                    using (ZipArchive archive = ZipFile.OpenRead(zipPath))
+                    {
+                        foreach (var entry in archive.Entries)
+                        {
+                            Debug.WriteLine(entry.FullName);
+                            // Normalize entry path to use forward slashes
+                            var entryPath = entry.FullName.Replace("\\", "/");
+                            // Skip bad entries
+                            if (string.IsNullOrEmpty(entry.Name))
+                                continue;
+
+                            // Find the first occurrence of a whitelisted content directory in the path
+                            string[] parts = entryPath.Split('/');
+                            int contentDirIdx = -1;
+                            for (int i = 0; i < parts.Length; i++)
+                            {
+                                if (contentDirectories.Contains(parts[i], StringComparer.OrdinalIgnoreCase))
+                                {
+                                    contentDirIdx = i;
+                                    break;
+                                }
+                            }
+                            if (contentDirIdx == -1)
+                            {
+                                // If not a valid content directory, extract at root
+                            }
+
+                            // Build the relative path from the content directory onward
+                            string relativePath = string.Join('/', parts.Skip(contentDirIdx));
+                            string destPath = Path.Combine(assetFolder, relativePath.Replace('/', Path.DirectorySeparatorChar));
+
+                            // Ensure directory exists
+                            string? destDir = Path.GetDirectoryName(destPath);
+                            if (!string.IsNullOrEmpty(destDir) && !Directory.Exists(destDir))
+                                Directory.CreateDirectory(destDir);
+
+                            // Extract file
+                            entry.ExtractToFile(destPath, overwrite: true);
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -126,10 +167,16 @@ namespace P2CAM.Core
                     Debug.WriteLine($"Error writing def.toml: {ex.Message}");
                     return false;
                 }
+                Debug.WriteLine($"Done writing def.toml to {assetFolder}");
+                Console.WriteLine($"Done writing def.toml to {assetFolder}");
 
                 MountHandler.AddCustomSearchPathsToGameInfo(portal2Dir, customDir);
                 Debug.WriteLine($"Installed asset from zip to: {assetFolder}");
                 return true;
+            } catch (Exception e)
+            {
+                InstallationInProgress = false;
+                return false;
             }
             finally
             {

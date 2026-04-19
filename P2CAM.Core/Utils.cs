@@ -102,16 +102,16 @@ namespace P2CAM.Core
             // Get all entries in the zip to analyze its structure
             using (ZipArchive archive = ZipFile.OpenRead(zipPath))
             {
-                // Find top-level folders
-                var topLevelFolders = archive.Entries
-                    .Select(e => e.FullName.Split('/').FirstOrDefault())
+                // Find top-level files and folders
+                var topLevelFilesAndFolders = archive.Entries
+                    .Select(e => e.FullName.Split(['/', '\\']).FirstOrDefault())
                     .Where(name => !string.IsNullOrEmpty(name))
                     .Distinct()
                     .ToList();
 
-                if (topLevelFolders.Count == 1)
+                if (topLevelFilesAndFolders.Count == 1)
                 {
-                    string singleFolder = topLevelFolders[0]!;
+                    string singleFolder = topLevelFilesAndFolders[0]!;
                     string folderPath = Path.Combine(extractPath, singleFolder);
 
                     // Move contents of the folder up one level
