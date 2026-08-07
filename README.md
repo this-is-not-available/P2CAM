@@ -4,7 +4,7 @@ P2CAM is your go-to application for installing, uninstalling, creating and viewi
 It uses the .p2asset format to quickly share your high-quality assets effortlessly.
 I aim for P2CAM to become a one-stop place for anything custom asset related, as well as making checking the required credit for each asset effortless.
 
-All custom assets are installed and mounted from ```Portal 2/portal/custom``` leading to them being easily manipulated.
+All custom assets are installed and mounted from ```Portal 2/portal 2/custom``` leading to them being easily manipulated.
 
 The project is cross-platform with Windows and Linux support.
 
